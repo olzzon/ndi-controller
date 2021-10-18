@@ -1,0 +1,11 @@
+# Yarn Integrity file
+.yarn-integrity
+
+# Build dir
+build/
+
+# Dependency directories
+node_modules/
+
+#other:
+storage/

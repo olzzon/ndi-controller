@@ -1,0 +1,33 @@
+.client-target-label {
+    color: white;
+    margin-bottom: 3vh;
+    margin-left: 40vw;
+}
+
+.client-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    color: aqua;
+}
+
+.client-connection-botton {
+    color: white;
+    background-color: rgb(73, 73, 73);
+    margin-top: 1vh;
+    margin-left: 1vw;
+    height: 10vh;
+    width: 10vw;
+    font-size: 1.4rem;
+}
+
+.client-button-label {
+    color: rgb(138, 138, 138)
+}
+
+.client-button-label-active {
+    color: rgb(179, 2, 10)
+}
+

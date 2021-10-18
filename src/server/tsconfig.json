@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+      "allowJs": true,
+      "allowSyntheticDefaultImports": true,
+      "jsx": "preserve",
+      "lib": [
+        "dom",
+        "es2017"
+      ],
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "preserveConstEnums": true,
+      "removeComments": false,
+      "skipLibCheck": true,
+      "sourceMap": true,
+      "strict": false,
+      "target": "esnext",
+      "forceConsistentCasingInFileNames": true,
+      "esModuleInterop": true,
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "outDir": "../../build",
+      "noEmit": false
+    },
+    "exclude": [
+      "node_modules"
+    ],
+    "include": [
+      "**/*.ts",
+    ]
+  }

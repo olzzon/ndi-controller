@@ -1,0 +1,85 @@
+{
+    "name": "ndi-controller",
+    "version": "0.0.1",
+    "description": "Manage and route your NDI signals",
+    "author": "Olzzon /Kasper Olsson Hans",
+    "main": "public/electron.js",
+    "contributors": [
+        {
+            "name": "Kasper Olsson Hans",
+            "url": "https://github.com/olzzon"
+        }
+    ],
+    "scripts": {
+        "watch-server": "tsc -p src/server -watch",
+        "watch-client": "cross-env NODE_ENV=development TS_NODE_PROJECT=\"src/client/tsconfig.json\" webpack --watch",
+        "build-watch": "yarn watch-server & yarn watch-client",
+        "build": "yarn build-client && yarn build-server",
+        "build-server": "tsc -p ./src/server",
+        "build-client": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"./src/client/tsconfig.json\" webpack && cp ./src/client/index.html ./build/client/index.html",
+        "start": "node build/server/index.js",
+        "start-dev": "node --inspect ./build/server/server.js",
+        "start-break": "node --inspect-brk ./build/server/server.js",
+        "dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
+        "electron": "wait-on tcp:5901 && electron .",
+        "package": "yarn pkg .",
+        "release": "standard-version",
+        "prepareChangelog": "standard-version --prerelease",
+        "rebuild": "node-pre-gyp install --build-from-source",
+        "inspect": "node --inspect dist/index.js",
+        "validate:dependencies": "yarn audit",
+        "license-validate": "node-license-validator -p -d --allow-licenses MIT MIT/X11 BSD BSD-3-Clause BSD-2-Clause ISC Apache Apache-2.0 Unlicense --allow-packages cycle"
+    },
+    "gypfile": true,
+    "dependencies": {
+        "bindings": "^1.5.0",
+        "express": "^4.17.1",
+        "node-emberplus": "^2.5.10",
+        "socket.io": "^4.1.3",
+        "socket.io-client": "^4.1.3",
+        "winston": "^3.3.3"
+    },
+    "bin": {
+        "server": "./build/server/index.js"
+    },
+    "pkg": {
+        "scripts": "./build/server/index.js",
+        "assets": "./build/client/**/*",
+        "targets": [
+            "node12-win-x64"
+        ],
+        "outputPath": "package"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.13",
+        "@types/jest": "^26.0.24",
+        "@types/node": "^16.3.2",
+        "@types/react": "^17.0.14",
+        "@types/react-dom": "^17.0.9",
+        "@types/underscore": "^1.8.13",
+        "codecov": "^3.6.1",
+        "concurrently": "^6.3.0",
+        "cross-env": "^7.0.3",
+        "css-loader": "^6.2.0",
+        "electron": "^15.1.2",
+        "electron-is-dev": "^2.0.0",
+        "jest": "^27.0.6",
+        "jest-haste-map": "^24.5.0",
+        "jest-resolve": "^24.5.0",
+        "node-gyp": "^8.2.0",
+        "node-license-validator": "^1.3.2",
+        "npm-scripts-info": "^0.3.9",
+        "prettier": "2.3.2",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "standard-version": "^9.3.0",
+        "style-loader": "^3.2.1",
+        "ts-jest": "^26.4.1",
+        "ts-loader": "^9.2.3",
+        "typescript": "^4.3.5",
+        "wait-on": "^6.0.0",
+        "webpack": "^5.45.1",
+        "webpack-cli": "^4.7.2",
+        "node-pre-gyp": "^0.17.0"
+    }
+}

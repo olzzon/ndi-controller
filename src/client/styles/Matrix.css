@@ -1,0 +1,60 @@
+.matrix {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: left;
+    color: rgb(190, 190, 190);
+}
+
+
+.matrixsources {
+    margin-left: 30px;
+    height: 35px;
+    margin-right: 20px;
+}
+
+.matrixsourcetarget {
+    margin-top: 10px;
+    line-height: 20px;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+
+.matrixsource {
+    line-height: 38px;
+    font-size: 20px;
+}
+
+.matrixtargets {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: left;
+    align-items: left;
+    color: rgb(190, 190, 190);
+}
+
+.matrixtarget {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.matrix_target_label {
+    direction: rtl;
+    transform: rotate(90deg);
+    font-size: 20px;
+    height: 2px;
+    margin-bottom: 40px;
+}
+
+.matrix_connection_botton {
+    color: white;
+    background-color: rgb(73, 73, 73);
+    margin-top: 3px;
+    margin-left: 2px;
+    height: 35px;
+    width: 35px;
+    font-size: 20px;
+}
