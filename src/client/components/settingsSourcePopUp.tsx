@@ -27,7 +27,7 @@ const SettingsSourcePopUp: React.FC<ISettingsSourcePopup> = (props) => {
             url: props.discoveredNdiSources[selectedFromList].url,
         }
         props.setSources(newSources)
-        console.log('Source changed to NDI source : ', event.target.value)
+        console.log('Source changed to Discovered NDI source : ', event.target.value)
     }
 
     const handleUserLabelInput = (

@@ -10,7 +10,7 @@ import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 import { changeNdiRoutingSource, discoverNdiSources } from '../ndi/ndiMatrice'
 import { setMatrixConnection } from '../ember/emberLocalClient'
 import { emberServer } from '../ember/emberServer'
-import { updateTargetList } from '../utils/storage'
+import { updateSourcesList, updateTargetList } from '../utils/storage'
 
 let socketClients: any[] = []
 
@@ -54,6 +54,12 @@ export const webServer = (
                         networkSources
                     )
                 })
+                .on(
+                    IO.SAVE_SOURCES_LIST,
+                    (sources: ISource[]) => {
+                        updateSourcesList(sources)
+                    }
+                )
 
             socket.on(IO.RESTART_SERVER, () => {
                 logger.info('Restart SERVER!')

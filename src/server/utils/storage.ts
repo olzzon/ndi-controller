@@ -53,3 +53,24 @@ export const updateTargetList = (targets: ITarget[]) => {
         }
     )
 }
+
+export const updateSourcesList = (sources: ISource[]) => {
+    console.log('Saving Sources list :', sources)
+    let json = JSON.stringify(sources)
+    if (!fs.existsSync('storage')) {
+        fs.mkdirSync('storage')
+    }
+    fs.writeFile(
+        path.resolve('storage', 'sources.json'),
+        json,
+        'utf8',
+        (error: any) => {
+            if( error) {
+               logger.error('Error writing sources.json file')
+                console.log('Error writing sources.json file: ', error)
+            }
+            else
+            { logger.info('sources.json file updated')}
+        }
+    )
+}

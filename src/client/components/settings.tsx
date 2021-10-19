@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 import '../styles/Settings.css'
+import * as IO from '../../models/SOCKET_IO_CONTANTS'
+import { socketClient } from './mainPage'
 import SettingsSourcePopUp from './settingsSourcePopUp'
 
 interface ISettingsProps {
@@ -8,15 +10,26 @@ interface ISettingsProps {
     targets: ITarget[]
     discoveredNdiSources: IDiscoveredNdiSource[]
     setSources: React.Dispatch<React.SetStateAction<ISource[]>>
+    handleShowSettings(): void
 }
 
 const SettingsPage: React.FC<ISettingsProps> = (props) => {
     const [selectedSource, setSelectedSource] = useState<number>(-1)
-    const renderSourceList = () => {
-        const handleSettingsSourcePopup = (sourceIndex: number) => {
-            setSelectedSource(sourceIndex)
-        }
 
+    const handleSaveSettings = () => {
+        socketClient.emit(IO.SAVE_SOURCES_LIST, props.sources)
+        props.handleShowSettings()
+    }
+
+    const handleCancelSettings = () => {
+        props.handleShowSettings()
+    }
+
+    const handleSettingsSourcePopup = (sourceIndex: number) => {
+        setSelectedSource(sourceIndex)
+    }
+
+    const renderSourceList = () => {
         const selectSourceIndexDummy = 1
         return (
             <div className="settings-list">
@@ -57,6 +70,20 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
         <div className={'settings'}>
             {renderSourceList()}
             {renderTargetList()}
+            <button
+                onClick={() => {
+                    handleCancelSettings()
+                }}
+            >
+                CANCEL
+            </button>
+            <button
+                onClick={() => {
+                    handleSaveSettings()
+                }}
+            >
+                UPDATE
+            </button>
             {selectedSource === -1 ? (
                 <React.Fragment />
             ) : (

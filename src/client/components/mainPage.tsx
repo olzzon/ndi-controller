@@ -86,7 +86,7 @@ const MainPage = () => {
             {!showSettings ? (
                 <Matrix sources={sources} targets={targets} />
             ) : (
-                <SettingsPage sources={sources} targets={targets} discoveredNdiSources={discoveredNdiSources} setSources={setSources}/>
+                <SettingsPage sources={sources} targets={targets} discoveredNdiSources={discoveredNdiSources} setSources={setSources} handleShowSettings={handleShowSettings}/>
             )}
         </React.Fragment>
     )
