@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { INetWorkSource, ISource, ITarget } from '../../models/interfaces'
+import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 import '../styles/Settings.css'
 import SettingsSourcePopUp from './settingsSourcePopUp'
 
 interface ISettingsProps {
     sources: ISource[]
     targets: ITarget[]
-    networkSources: INetWorkSource[]
+    discoveredNdiSources: IDiscoveredNdiSource[]
     setSources: React.Dispatch<React.SetStateAction<ISource[]>>
 }
 
@@ -63,7 +63,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                 <SettingsSourcePopUp
                     sources={props.sources}
                     setSources={props.setSources}
-                    networkSources={props.networkSources}
+                    discoveredNdiSources={props.discoveredNdiSources}
                     selectedPopUp={selectedSource}
                     setSelectedPopUp={setSelectedSource}
                 />

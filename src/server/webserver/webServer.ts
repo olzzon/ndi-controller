@@ -6,15 +6,19 @@ const path = require('path')
 
 import { logger } from '../utils/logger'
 import * as IO from '../../models/SOCKET_IO_CONTANTS'
-import { INetWorkSource, ISource, ITarget } from '../../models/interfaces'
-import { changeNdiRoutingSource } from '../ndi/ndiMatrice'
+import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
+import { changeNdiRoutingSource, discoverNdiSources } from '../ndi/ndiMatrice'
 import { setMatrixConnection } from '../ember/emberLocalClient'
 import { emberServer } from '../ember/emberServer'
 import { updateTargetList } from '../utils/storage'
 
 let socketClients: any[] = []
 
-export const webServer = (sources: ISource[], targets: ITarget[], networkSources: INetWorkSource[]) => {
+export const webServer = (
+    sources: ISource[],
+    targets: ITarget[],
+    networkSources: IDiscoveredNdiSource[]
+) => {
     const socketServerConnection = () => {
         // socket.io server
         socketServer.on('connection', (socket: any) => {
@@ -33,12 +37,23 @@ export const webServer = (sources: ISource[], targets: ITarget[], networkSources
             socket.once('disconnect', () => {
                 logger.debug(`Socket with id: ${socket.id} disconnected`)
             })
-            socket.on(
-                IO.CHANGE_SOURCE,
-                (sourceIndex: number, targetIndex: number) => {
-                    setMatrixConnection(sourceIndex, targetIndex)
-                }
-            )
+            socket
+                .on(
+                    IO.CHANGE_SOURCE,
+                    (sourceIndex: number, targetIndex: number) => {
+                        setMatrixConnection(sourceIndex, targetIndex)
+                    }
+                )
+                .on(IO.DISCOVER_NDI_SOURCES, () => {
+                    console.log('Discovering sources')
+                    discoverNdiSources()
+                    socket.emit(
+                        IO.UPDATE_CLIENT,
+                        sources,
+                        targets,
+                        networkSources
+                    )
+                })
 
             socket.on(IO.RESTART_SERVER, () => {
                 logger.info('Restart SERVER!')
@@ -63,7 +78,7 @@ export const webServer = (sources: ISource[], targets: ITarget[], networkSources
             targets[info.target].selectedSource = parseInt(info.sources)
             changeNdiRoutingSource(
                 sources[info.sources].url,
-                sources[info.sources].dnsSource,
+                sources[info.sources].dnsName,
                 info.target
             )
             socketServer.emit(IO.UPDATE_CLIENT, sources, targets)
@@ -76,7 +91,7 @@ export const webServer = (sources: ISource[], targets: ITarget[], networkSources
             targets[info.target].selectedSource = parseInt(info.sources)
             changeNdiRoutingSource(
                 sources[info.sources].url,
-                sources[info.sources].dnsSource,
+                sources[info.sources].dnsName,
                 info.target
             )
             socketServer.emit(IO.UPDATE_CLIENT, sources, targets)

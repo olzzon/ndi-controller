@@ -5,15 +5,15 @@ import { webServer } from './webserver/webServer'
 
 import { loadSourceList, loadTargetList } from './utils/storage'
 import { logger } from './utils/logger'
-import { findAllNdiSources } from './ndi/ndiMatrice'
-import { INetWorkSource } from '../models/interfaces'
+import { discoverNdiSources } from './ndi/ndiMatrice'
+import { IDiscoveredNdiSource } from '../models/interfaces'
 
 initializeEmberServer().then(() => {
     initializeEmberLocalClient()
         .then(() => {
             let sources = loadSourceList()
             let targets = loadTargetList()
-            let networkSources: INetWorkSource[] = findAllNdiSources()
+            let networkSources: IDiscoveredNdiSource[] = discoverNdiSources()
 
             setAllCrossPoints(sources, targets)
             webServer(sources, targets, networkSources)

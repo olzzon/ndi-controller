@@ -1,6 +1,6 @@
 export interface ISource {
     label: string
-    dnsSource: string
+    dnsName: string
     url: string
 }
 
@@ -9,7 +9,7 @@ export interface ITarget {
     selectedSource: number
 }
 
-export interface INetWorkSource {
+export interface IDiscoveredNdiSource {
     name: string
     url: string
 }

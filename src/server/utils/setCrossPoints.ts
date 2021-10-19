@@ -16,7 +16,7 @@ export const setAllCrossPoints = (sources: ISource[], targets: ITarget[]) => {
             setMatrixConnection(target.selectedSource, targetIndex)
             initializeNdiRouting(
                 sources[target.selectedSource].url,
-                sources[target.selectedSource].dnsSource,
+                sources[target.selectedSource].dnsName,
                 targets[targetIndex].label,
                 targetIndex
             )

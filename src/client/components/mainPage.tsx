@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import Matrix from './matrix'
 import SettingsPage from './settings'
-import { INetWorkSource, ISource, ITarget } from '../../models/interfaces'
+import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 
 export const socketClient = io()
 
@@ -14,7 +14,7 @@ const MainPage = () => {
     const [showSettings, setShowSettings] = useState<boolean>(false)
     const [targets, setTargets] = useState<ITarget[]>([])
     const [sources, setSources] = useState<ISource[]>([])
-    const [networkSources, setNetworkSources] = useState<INetWorkSource[]>([])
+    const [discoveredNdiSources, setDiscoveredNdiSources] = useState<IDiscoveredNdiSource[]>([])
 
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const MainPage = () => {
         if (socketClient) {
             socketClient.on(
                 IO.UPDATE_CLIENT,
-                (sourceList: ISource[], targetList: ITarget[], networkSourcesList: INetWorkSource[]) => {
+                (sourceList: ISource[], targetList: ITarget[], networkSourcesList: IDiscoveredNdiSource[]) => {
                     console.log(
                         'Source List: ',
                         sourceList,
@@ -39,7 +39,7 @@ const MainPage = () => {
                     )
                     setSources(sourceList)
                     setTargets(targetList)
-                    setNetworkSources(networkSourcesList)
+                    setDiscoveredNdiSources(networkSourcesList)
                 }
             )
         }
@@ -86,7 +86,7 @@ const MainPage = () => {
             {!showSettings ? (
                 <Matrix sources={sources} targets={targets} />
             ) : (
-                <SettingsPage sources={sources} targets={targets} networkSources={networkSources} setSources={setSources}/>
+                <SettingsPage sources={sources} targets={targets} discoveredNdiSources={discoveredNdiSources} setSources={setSources}/>
             )}
         </React.Fragment>
     )
