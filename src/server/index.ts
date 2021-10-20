@@ -13,10 +13,10 @@ initializeEmberServer().then(() => {
         .then(() => {
             let sources = loadSourceList()
             let targets = loadTargetList()
-            let networkSources: IDiscoveredNdiSource[] = discoverNdiSources()
+            let discoveredNdiSources: IDiscoveredNdiSource[] = discoverNdiSources()
 
             setAllCrossPoints(sources, targets)
-            webServer(sources, targets, networkSources)
+            webServer(sources, targets, discoveredNdiSources)
         })
         .catch((error) => {
             logger.error('Error initializing Ember and NDI Server')

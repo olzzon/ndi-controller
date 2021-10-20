@@ -11,5 +11,5 @@ export interface ITarget {
 
 export interface IDiscoveredNdiSource {
     name: string
-    url: string
+    urlAddress: string
 }

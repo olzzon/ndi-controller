@@ -10,47 +10,39 @@ import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 export const socketClient = io()
 
 const MainPage = () => {
-    const [serverOnline, setServerOnline] = useState<boolean>(false)
     const [showSettings, setShowSettings] = useState<boolean>(false)
     const [targets, setTargets] = useState<ITarget[]>([])
     const [sources, setSources] = useState<ISource[]>([])
-    const [discoveredNdiSources, setDiscoveredNdiSources] = useState<IDiscoveredNdiSource[]>([])
-
+    const [discoveredNdiSources, setDiscoveredNdiSources] = useState<
+        IDiscoveredNdiSource[]
+    >([])
 
     useEffect(() => {
         socketClient
             .on('connect', () => {
-                setServerOnline(true)
                 console.log('Connected to NDI-MTX')
             })
-            .on('disconnect', () => {
-                setServerOnline(false)
-            })
-
-        if (socketClient) {
-            socketClient.on(
+            .on(
                 IO.UPDATE_CLIENT,
-                (sourceList: ISource[], targetList: ITarget[], networkSourcesList: IDiscoveredNdiSource[]) => {
+                (
+                    sourceList: ISource[],
+                    targetList: ITarget[],
+                    discoveredNdiSourcesList: IDiscoveredNdiSource[]
+                ) => {
                     console.log(
                         'Source List: ',
                         sourceList,
                         'Target List :',
-                        targetList
+                        targetList,
+                        'Discovered NDI sources :',
+                        discoveredNdiSourcesList
                     )
                     setSources(sourceList)
                     setTargets(targetList)
-                    setDiscoveredNdiSources(networkSourcesList)
+                    setDiscoveredNdiSources(discoveredNdiSourcesList)
                 }
             )
-        }
     }, [socketClient])
-
-    const handleRestartServer = () => {
-        if (window.confirm('Are you sure you will restart server ')) {
-            console.log('RESTARTING SERVER')
-            socketClient.emit(IO.RESTART_SERVER)
-        }
-    }
 
     const handleShowSettings = () => {
         setShowSettings(!showSettings)
@@ -61,18 +53,6 @@ const MainPage = () => {
             <div className={'container'}>
                 <div className={'header'}>NDI CONTROLLER</div>
                 <div className="buttons">
-                    <button
-                        className={'button'}
-                        onClick={() => {
-                            handleRestartServer()
-                        }}
-                    >
-                        {serverOnline ? (
-                            <React.Fragment>SERVER ONLINE</React.Fragment>
-                        ) : (
-                            <React.Fragment>SERVER OFFLINE</React.Fragment>
-                        )}
-                    </button>
                     <button
                         className="button"
                         onClick={() => {
@@ -86,7 +66,13 @@ const MainPage = () => {
             {!showSettings ? (
                 <Matrix sources={sources} targets={targets} />
             ) : (
-                <SettingsPage sources={sources} targets={targets} discoveredNdiSources={discoveredNdiSources} setSources={setSources} handleShowSettings={handleShowSettings}/>
+                <SettingsPage
+                    sources={sources}
+                    targets={targets}
+                    discoveredNdiSources={discoveredNdiSources}
+                    setSources={setSources}
+                    handleShowSettings={handleShowSettings}
+                />
             )}
         </React.Fragment>
     )

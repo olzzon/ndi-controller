@@ -17,7 +17,7 @@ let socketClients: any[] = []
 export const webServer = (
     sources: ISource[],
     targets: ITarget[],
-    networkSources: IDiscoveredNdiSource[]
+    discoveredNdiSources: IDiscoveredNdiSource[]
 ) => {
     const socketServerConnection = () => {
         // socket.io server
@@ -26,18 +26,22 @@ export const webServer = (
             socketClients.push({
                 id: socket.id,
             })
-            socket.emit(IO.UPDATE_CLIENT, sources, targets, networkSources)
+            socket.emit(
+                IO.UPDATE_CLIENT,
+                sources,
+                targets,
+                discoveredNdiSources
+            )
 
-            socket.on('disconnecting', () => {
-                socketClients = socketClients.filter((client) => {
-                    return client.id !== socket.id
-                })
-            })
-
-            socket.once('disconnect', () => {
-                logger.debug(`Socket with id: ${socket.id} disconnected`)
-            })
             socket
+                .on('disconnecting', () => {
+                    socketClients = socketClients.filter((client) => {
+                        return client.id !== socket.id
+                    })
+                })
+                .once('disconnect', () => {
+                    logger.debug(`Socket with id: ${socket.id} disconnected`)
+                })
                 .on(
                     IO.CHANGE_SOURCE,
                     (sourceIndex: number, targetIndex: number) => {
@@ -46,25 +50,24 @@ export const webServer = (
                 )
                 .on(IO.DISCOVER_NDI_SOURCES, () => {
                     console.log('Discovering sources')
-                    discoverNdiSources()
+                    discoveredNdiSources = discoverNdiSources()
                     socket.emit(
                         IO.UPDATE_CLIENT,
                         sources,
                         targets,
-                        networkSources
+                        discoveredNdiSources
                     )
                 })
-                .on(
-                    IO.SAVE_SOURCES_LIST,
-                    (sources: ISource[]) => {
-                        updateSourcesList(sources)
-                    }
-                )
-
-            socket.on(IO.RESTART_SERVER, () => {
-                logger.info('Restart SERVER!')
-                process.exit(0)
-            })
+                .on(IO.SAVE_SOURCES_LIST, (newSources: ISource[]) => {
+                    updateSourcesList(newSources)
+                    sources = newSources
+                    socket.emit(
+                        IO.UPDATE_CLIENT,
+                        sources,
+                        targets,
+                        discoveredNdiSources
+                    )
+                })
         })
     }
 
@@ -77,32 +80,43 @@ export const webServer = (
     }
 
     const emberServerConnetion = () => {
-        emberServer.on('matrix-connect', (info) => {
-            logger.info(
-                `Ember Client ${info.client} connected target : ${info.target} using source : ${info.sources}`
-            )
-            targets[info.target].selectedSource = parseInt(info.sources)
-            changeNdiRoutingSource(
-                sources[info.sources].url,
-                sources[info.sources].dnsName,
-                info.target
-            )
-            socketServer.emit(IO.UPDATE_CLIENT, sources, targets)
-            updateTargetList(targets)
-        })
-        emberServer.on('matrix-change', (info) => {
-            logger.info(
-                `Ember Client ${info.client} changed target : ${info.target} using source : ${info.sources}`
-            )
-            targets[info.target].selectedSource = parseInt(info.sources)
-            changeNdiRoutingSource(
-                sources[info.sources].url,
-                sources[info.sources].dnsName,
-                info.target
-            )
-            socketServer.emit(IO.UPDATE_CLIENT, sources, targets)
-            updateTargetList(targets)
-        })
+        emberServer
+            .on('matrix-connect', (info) => {
+                logger.info(
+                    `Ember Client ${info.client} connected target : ${info.target} using source : ${info.sources}`
+                )
+                targets[info.target].selectedSource = parseInt(info.sources)
+                changeNdiRoutingSource(
+                    sources[info.sources].url,
+                    sources[info.sources].dnsName,
+                    info.target
+                )
+                socketServer.emit(
+                    IO.UPDATE_CLIENT,
+                    sources,
+                    targets,
+                    discoveredNdiSources
+                )
+                updateTargetList(targets)
+            })
+            .on('matrix-change', (info) => {
+                logger.info(
+                    `Ember Client ${info.client} changed target : ${info.target} using source : ${info.sources}`
+                )
+                targets[info.target].selectedSource = parseInt(info.sources)
+                changeNdiRoutingSource(
+                    sources[info.sources].url,
+                    sources[info.sources].dnsName,
+                    info.target
+                )
+                socketServer.emit(
+                    IO.UPDATE_CLIENT,
+                    sources,
+                    targets,
+                    discoveredNdiSources
+                )
+                updateTargetList(targets)
+            })
     }
 
     const port: number = parseInt(process.env.PORT || '5901') || 5901

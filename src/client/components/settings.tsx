@@ -14,7 +14,7 @@ interface ISettingsProps {
 }
 
 const SettingsPage: React.FC<ISettingsProps> = (props) => {
-    const [selectedSource, setSelectedSource] = useState<number>(-1)
+    const [selectedSourceIndex, setselectedSourceIndex] = useState<number>(-1)
 
     const handleSaveSettings = () => {
         socketClient.emit(IO.SAVE_SOURCES_LIST, props.sources)
@@ -26,7 +26,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
     }
 
     const handleSettingsSourcePopup = (sourceIndex: number) => {
-        setSelectedSource(sourceIndex)
+        setselectedSourceIndex(sourceIndex)
     }
 
     const renderSourceList = () => {
@@ -84,15 +84,15 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
             >
                 UPDATE
             </button>
-            {selectedSource === -1 ? (
+            {selectedSourceIndex === -1 ? (
                 <React.Fragment />
             ) : (
                 <SettingsSourcePopUp
                     sources={props.sources}
                     setSources={props.setSources}
                     discoveredNdiSources={props.discoveredNdiSources}
-                    selectedPopUp={selectedSource}
-                    setSelectedPopUp={setSelectedSource}
+                    selectedPopUp={selectedSourceIndex}
+                    setSelectedPopUp={setselectedSourceIndex}
                 />
             )}
         </div>

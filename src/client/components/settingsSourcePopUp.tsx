@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IDiscoveredNdiSource, ISource } from '../../models/interfaces'
 import * as IO from '../../models/SOCKET_IO_CONTANTS'
 import '../styles/SettingsPopup.css'
@@ -13,106 +13,112 @@ interface ISettingsSourcePopup {
 }
 
 const SettingsSourcePopUp: React.FC<ISettingsSourcePopup> = (props) => {
+    const [label, setLabel] = useState<string>(props.sources[props.selectedPopUp].label)
+    const [dnsName, setDnsName] = useState<string>(props.sources[props.selectedPopUp].dnsName)
+    const [url, setUrl] = useState<string>(props.sources[props.selectedPopUp].url)
+
     const handleDiscoverNDISources = () => {
         socketClient.emit(IO.DISCOVER_NDI_SOURCES)
     }
+
+    const handleUpdateChange = () => {
+        let newSources: ISource[] = props.sources
+        newSources[props.selectedPopUp] = {label, dnsName, url}
+        props.setSources(newSources)
+        props.setSelectedPopUp(-1)
+    }
+
+    const handleCancelChange = () => {
+        props.setSelectedPopUp(-1)
+    }
+
     const handleSelectNdiSource = (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
-        let newSources = props.sources
         let selectedFromList = parseInt(event.target.value)
-        newSources[props.selectedPopUp] = {
-            label: props.discoveredNdiSources[selectedFromList].name,
-            dnsName: props.discoveredNdiSources[selectedFromList].name,
-            url: props.discoveredNdiSources[selectedFromList].url,
-        }
-        props.setSources(newSources)
-        console.log('Source changed to Discovered NDI source : ', event.target.value)
+        setLabel(props.discoveredNdiSources[selectedFromList].name)
+        setDnsName(props.discoveredNdiSources[selectedFromList].name)
+        setUrl(props.discoveredNdiSources[selectedFromList].urlAddress)
     }
 
     const handleUserLabelInput = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        console.log('TYPING LABEL')
+        setLabel(event.target.value)
     }
     const handleUserDnsInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('TYPING DNS')
+        setDnsName(event.target.value)
     }
     const handleUserIpInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('TYPING IP')
+        setUrl(event.target.value)
     }
-    const SettingsSourcePopup = () => {
-        return (
-            <div>
-                <div className="settings-popup-header">
-                    Change Source :{' '}
-                    {props.sources[props.selectedPopUp].dnsName}
-                </div>
-                <label className="settings-popup-input">
-                    Label :
-                    <input
-                        type="text"
-                        value={props.sources[props.selectedPopUp].label}
-                        onChange={(event) => handleUserLabelInput(event)}
-                    />
-                </label>
-                <label className="settings-popup-input">
-                    NDI Name :
-                    <input
-                        type="text"
-                        value={props.sources[props.selectedPopUp].dnsName}
-                        onChange={(event) => handleUserDnsInput(event)}
-                    />
-                </label>{' '}
-                <label className="settings-popup-input">
-                    NDI URL :
-                    <input
-                        type="text"
-                        value={props.sources[props.selectedPopUp].url}
-                        onChange={(event) => handleUserIpInput(event)}
-                    />
-                </label>{' '}
-                <select onChange={(event) => handleSelectNdiSource(event)}>
-                    {props.discoveredNdiSources.map(
-                        (networkSource: IDiscoveredNdiSource, index: number) => {
-                            return (
-                                <option
-                                    className="settings-popup-select"
-                                    key={index}
-                                    value={index}
-                                >
-                                    {networkSource.name}
-                                </option>
-                            )
-                        }
-                    )}
-                </select>
-                <button
-                    onClick={() => {
-                        handleDiscoverNDISources()
-                    }}
-                >
-                    DISCOVER NDI
-                </button>
-                <button
-                    onClick={() => {
-                        props.setSelectedPopUp(-1)
-                    }}
-                >
-                    CANCEL
-                </button>
-                <button
-                    onClick={() => {
-                        props.setSelectedPopUp(-1)
-                    }}
-                >
-                    UPDATE
-                </button>
+    return (
+        <div className="settings-popup">
+            <div className="settings-popup-header">
+                Change Source : {props.sources[props.selectedPopUp].dnsName}
             </div>
-        )
-    }
-
-    return <div className={'settings-popup'}>{SettingsSourcePopup()}</div>
+            <label className="settings-popup-input">
+                Label :
+                <input
+                    type="text"
+                    value={label}
+                    onChange={(event) => handleUserLabelInput(event)}
+                />
+            </label>
+            <label className="settings-popup-input">
+                NDI Name :
+                <input
+                    type="text"
+                    value={dnsName}
+                    onChange={(event) => handleUserDnsInput(event)}
+                />
+            </label>
+            <label className="settings-popup-input">
+                NDI URL :
+                <input
+                    type="text"
+                    value={url}
+                    onChange={(event) => handleUserIpInput(event)}
+                />
+            </label>
+            <select onChange={(event) => handleSelectNdiSource(event)}>
+                {props.discoveredNdiSources.map(
+                    (discoveredNdiSource: IDiscoveredNdiSource, index: number) => {
+                        return (
+                            <option
+                                className="settings-popup-select"
+                                key={index}
+                                value={index}
+                            >
+                                {discoveredNdiSource.name}
+                            </option>
+                        )
+                    }
+                )}
+            </select>
+            <button
+                onClick={() => {
+                    handleDiscoverNDISources()
+                }}
+            >
+                DISCOVER NDI
+            </button>
+            <button
+                onClick={() => {
+                    handleCancelChange()
+                }}
+            >
+                CANCEL
+            </button>
+            <button
+                onClick={() => {
+                    handleUpdateChange()
+                }}
+            >
+                UPDATE
+            </button>
+        </div>
+    )
 }
 
 export default SettingsSourcePopUp
