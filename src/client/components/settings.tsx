@@ -4,6 +4,7 @@ import '../styles/Settings.css'
 import * as IO from '../../models/SOCKET_IO_CONTANTS'
 import { socketClient } from './mainPage'
 import SettingsSourcePopUp from './settingsSourcePopUp'
+import SettingsTargetPopUp from './settingsTargetPopUp'
 
 interface ISettingsProps {
     sources: ISource[]
@@ -15,7 +16,13 @@ interface ISettingsProps {
 
 const SettingsPage: React.FC<ISettingsProps> = (props) => {
     const [selectedSourceIndex, setselectedSourceIndex] = useState<number>(-1)
-    const [settingsSources, setSettingsSources] = useState<ISource[]>(props.sources)
+    const [selectedTargetIndex, setselectedTargetIndex] = useState<number>(-1)
+    const [settingsSources, setSettingsSources] = useState<ISource[]>(
+        props.sources
+    )
+    const [settingsTargets, setSettingsTargets] = useState<ITarget[]>(
+        props.targets
+    )
 
     const handleSaveSettings = () => {
         socketClient.emit(IO.SAVE_SOURCES_LIST, settingsSources)
@@ -32,11 +39,10 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
 
     const handleAddSource = () => {
         let newSources = [...settingsSources]
-        newSources.push({label: '', dnsName: '', url: ''})
+        newSources.push({ label: '', dnsName: '', url: '' })
         setSettingsSources(newSources)
         setselectedSourceIndex(settingsSources.length - 1)
     }
-
 
     const handleRemoveSource = (sourceIndex: number) => {
         let newSources = [...settingsSources]
@@ -44,43 +50,58 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
         setSettingsSources(newSources)
     }
 
+    const handleSettingsTargetPopup = (targetIndex: number) => {
+        setselectedTargetIndex(targetIndex)
+    }
+
+    const handleAddTarget = () => {
+        let newTargets = [...settingsTargets]
+        newTargets.push({ label: '', selectedSource: 0})
+        setSettingsTargets(newTargets)
+        setselectedTargetIndex(settingsSources.length - 1)
+    }
+
+    const handleRemoveTarget = (targetIndex: number) => {
+        let newTargets = [...settingsTargets]
+        newTargets.splice(targetIndex, 1)
+        setSettingsTargets(newTargets)
+    }
 
     const renderSourceList = () => {
-        const selectSourceIndexDummy = 1
         return (
             <div className="settings-list">
-                <div className="settings-item">Sources :</div>
+                <div className="settings-item">SOURCES :</div>
                 {settingsSources.map((source, sourceIndex) => {
                     return (
                         <div>
-                        <button
-                            key={sourceIndex}
-                            onClick={() => {
-                                handleSettingsSourcePopup(sourceIndex)
-                            }}
-                            className="settings-item"
-                        >
-                            {source.label}
-                        </button>
-                        <button
-                            onClick={() => {
-                                handleRemoveSource(sourceIndex)
-                            }}
-                            className="settings-item"
-                        >
-                            DELETE
-                        </button>
+                            <button
+                                key={sourceIndex}
+                                onClick={() => {
+                                    handleSettingsSourcePopup(sourceIndex)
+                                }}
+                                className="settings-item"
+                            >
+                                {source.label}
+                            </button>
+                            <button
+                                onClick={() => {
+                                    handleRemoveSource(sourceIndex)
+                                }}
+                                className="settings-item"
+                            >
+                                DELETE
+                            </button>
                         </div>
                     )
                 })}
                 <button
-                            onClick={() => {
-                                handleAddSource()
-                            }}
-                            className="settings-item"
-                        >
-                            ADD SOURCE
-                        </button>
+                    onClick={() => {
+                        handleAddSource()
+                    }}
+                    className="settings-item"
+                >
+                    ADD SOURCE
+                </button>
             </div>
         )
     }
@@ -88,14 +109,38 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
     const renderTargetList = () => {
         return (
             <div className="settings-list">
-                <div className="settings-item">Targets :</div>
-                {props.targets.map((target, targetIndex) => {
+                <div className="settings-item">TARGETS :</div>
+                {settingsTargets.map((target, targetIndex) => {
                     return (
-                        <div key={targetIndex} className="settings-item">
-                            {target.label}
+                        <div>
+                            <button
+                                key={targetIndex}
+                                onClick={() => {
+                                    handleSettingsTargetPopup(targetIndex)
+                                }}
+                                className="settings-item"
+                            >
+                                {target.label}
+                            </button>
+                            <button
+                                onClick={() => {
+                                    handleRemoveTarget(targetIndex)
+                                }}
+                                className="settings-item"
+                            >
+                                DELETE
+                            </button>
                         </div>
                     )
                 })}
+                <button
+                    onClick={() => {
+                        handleAddTarget()
+                    }}
+                    className="settings-item"
+                >
+                    ADD TARGET
+                </button>
             </div>
         )
     }
@@ -127,6 +172,17 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                     discoveredNdiSources={props.discoveredNdiSources}
                     selectedPopUp={selectedSourceIndex}
                     setSelectedPopUp={setselectedSourceIndex}
+                />
+            )}
+            {selectedTargetIndex === -1 ? (
+                <React.Fragment />
+            ) : (
+                <SettingsTargetPopUp
+                    targets={settingsTargets}
+                    setTargets={setSettingsTargets}
+                    discoveredNdiSources={props.discoveredNdiSources}
+                    selectedPopUp={selectedTargetIndex}
+                    setSelectedPopUp={setselectedTargetIndex}
                 />
             )}
         </div>
