@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 import '../styles/Settings.css'
 import * as IO from '../../models/SOCKET_IO_CONTANTS'
@@ -15,9 +15,10 @@ interface ISettingsProps {
 
 const SettingsPage: React.FC<ISettingsProps> = (props) => {
     const [selectedSourceIndex, setselectedSourceIndex] = useState<number>(-1)
+    const [settingsSources, setSettingsSources] = useState<ISource[]>(props.sources)
 
     const handleSaveSettings = () => {
-        socketClient.emit(IO.SAVE_SOURCES_LIST, props.sources)
+        socketClient.emit(IO.SAVE_SOURCES_LIST, settingsSources)
         props.handleShowSettings()
     }
 
@@ -29,13 +30,29 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
         setselectedSourceIndex(sourceIndex)
     }
 
+    const handleAddSource = () => {
+        let newSources = [...settingsSources]
+        newSources.push({label: '', dnsName: '', url: ''})
+        setSettingsSources(newSources)
+        setselectedSourceIndex(settingsSources.length - 1)
+    }
+
+
+    const handleRemoveSource = (sourceIndex: number) => {
+        let newSources = [...settingsSources]
+        newSources.splice(sourceIndex, 1)
+        setSettingsSources(newSources)
+    }
+
+
     const renderSourceList = () => {
         const selectSourceIndexDummy = 1
         return (
             <div className="settings-list">
                 <div className="settings-item">Sources :</div>
-                {props.sources.map((source, sourceIndex) => {
+                {settingsSources.map((source, sourceIndex) => {
                     return (
+                        <div>
                         <button
                             key={sourceIndex}
                             onClick={() => {
@@ -45,8 +62,25 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                         >
                             {source.label}
                         </button>
+                        <button
+                            onClick={() => {
+                                handleRemoveSource(sourceIndex)
+                            }}
+                            className="settings-item"
+                        >
+                            DELETE
+                        </button>
+                        </div>
                     )
                 })}
+                <button
+                            onClick={() => {
+                                handleAddSource()
+                            }}
+                            className="settings-item"
+                        >
+                            ADD SOURCE
+                        </button>
             </div>
         )
     }
@@ -88,8 +122,8 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                 <React.Fragment />
             ) : (
                 <SettingsSourcePopUp
-                    sources={props.sources}
-                    setSources={props.setSources}
+                    sources={settingsSources}
+                    setSources={setSettingsSources}
                     discoveredNdiSources={props.discoveredNdiSources}
                     selectedPopUp={selectedSourceIndex}
                     setSelectedPopUp={setselectedSourceIndex}
