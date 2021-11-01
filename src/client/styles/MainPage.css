@@ -25,6 +25,13 @@ body {
     align-items: center;
 }
 
+.foot-ndi {
+    position: absolute;
+    bottom: 10px;
+    margin-left: 10px;
+    color: red;
+}
+
 .buttons {
     margin-top: 3vh;
     margin-bottom: 3vh;
@@ -46,3 +53,4 @@ body {
     box-shadow: 2 2px gray;
     transform: translateY(2px);
 }
+

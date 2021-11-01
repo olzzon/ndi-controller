@@ -7,14 +7,39 @@
 }
 
 .settings-list {
-    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin-left: 100px;
     height: 35px;
     margin-right: 20px;
 }
 
-.settings-item {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+.settings-header {
+    color:aliceblue;
+    background-color: rgb(66, 66, 66);
 }
 
+
+.settings-item {
+    background-color: rgb(155, 155, 155);
+}
+
+.settings-delete {
+    color: aliceblue;
+    background-color: rgb(168, 13, 13);
+}
+
+.settings-cancel {
+    position: absolute;
+    bottom: 50px;
+    color: aliceblue;
+    background-color: rgb(83, 83, 83);
+}
+.settings-update {
+    position: absolute;
+    bottom: 50px;
+    left: 100px;
+    color: aliceblue;
+    background-color: rgb(168, 13, 13);
+}

@@ -18,8 +18,6 @@ ReactDOM.render(
         ) : (
             <ClientPanel targetIndex={targetIndex} />
         )}
-        <br/>
-        <footer style={{color: "red"}}>NDI® is a registered trademark of NewTek, Inc.: http://ndi.tv/ </footer>
     </React.StrictMode>,
     document.getElementById('root')
 )

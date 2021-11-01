@@ -74,6 +74,9 @@ const MainPage = () => {
                     handleShowSettings={handleShowSettings}
                 />
             )}
+            <div className="foot-ndi">
+                NDI® is a registered trademark of NewTek, Inc.: http://ndi.tv/
+            </div>
         </React.Fragment>
     )
 }

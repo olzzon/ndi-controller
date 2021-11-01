@@ -56,7 +56,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
 
     const handleAddTarget = () => {
         let newTargets = [...settingsTargets]
-        newTargets.push({ label: '', selectedSource: 0})
+        newTargets.push({ label: '', selectedSource: 0 })
         setSettingsTargets(newTargets)
         setselectedTargetIndex(newTargets.length - 1)
     }
@@ -70,7 +70,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
     const renderSourceList = () => {
         return (
             <div className="settings-list">
-                <div className="settings-item">SOURCES :</div>
+                <div className="settings-header">SOURCES :</div>
                 {settingsSources.map((source, sourceIndex) => {
                     return (
                         <div>
@@ -87,9 +87,9 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                                 onClick={() => {
                                     handleRemoveSource(sourceIndex)
                                 }}
-                                className="settings-item"
+                                className="settings-delete"
                             >
-                                DELETE
+                                delete
                             </button>
                         </div>
                     )
@@ -109,7 +109,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
     const renderTargetList = () => {
         return (
             <div className="settings-list">
-                <div className="settings-item">TARGETS :</div>
+                <div className="settings-header">TARGETS :</div>
                 {settingsTargets.map((target, targetIndex) => {
                     return (
                         <div>
@@ -126,9 +126,9 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                                 onClick={() => {
                                     handleRemoveTarget(targetIndex)
                                 }}
-                                className="settings-item"
+                                className="settings-delete"
                             >
-                                DELETE
+                                delete
                             </button>
                         </div>
                     )
@@ -146,10 +146,13 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
     }
 
     return (
-        <div className={'settings'}>
-            {renderSourceList()}
-            {renderTargetList()}
+        <div>
+            <div className="settings">
+                {renderSourceList()}
+                {renderTargetList()}
+            </div>
             <button
+                className="settings-cancel"
                 onClick={() => {
                     handleCancelSettings()
                 }}
@@ -157,6 +160,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                 CANCEL
             </button>
             <button
+                className="settings-update"
                 onClick={() => {
                     handleSaveSettings()
                 }}
