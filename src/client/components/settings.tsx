@@ -25,7 +25,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
     )
 
     const handleSaveSettings = () => {
-        socketClient.emit(IO.SAVE_SOURCES_LIST, settingsSources)
+        socketClient.emit(IO.SAVE_SETTINGS, settingsSources, settingsTargets)
         props.handleShowSettings()
     }
 
@@ -41,7 +41,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
         let newSources = [...settingsSources]
         newSources.push({ label: '', dnsName: '', url: '' })
         setSettingsSources(newSources)
-        setselectedSourceIndex(settingsSources.length - 1)
+        setselectedSourceIndex(newSources.length - 1)
     }
 
     const handleRemoveSource = (sourceIndex: number) => {
@@ -58,7 +58,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
         let newTargets = [...settingsTargets]
         newTargets.push({ label: '', selectedSource: 0})
         setSettingsTargets(newTargets)
-        setselectedTargetIndex(settingsSources.length - 1)
+        setselectedTargetIndex(newTargets.length - 1)
     }
 
     const handleRemoveTarget = (targetIndex: number) => {

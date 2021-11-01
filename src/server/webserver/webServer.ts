@@ -58,16 +58,21 @@ export const webServer = (
                         discoveredNdiSources
                     )
                 })
-                .on(IO.SAVE_SOURCES_LIST, (newSources: ISource[]) => {
-                    updateSourcesList(newSources)
-                    sources = newSources
-                    socket.emit(
-                        IO.UPDATE_CLIENT,
-                        sources,
-                        targets,
-                        discoveredNdiSources
-                    )
-                })
+                .on(
+                    IO.SAVE_SETTINGS,
+                    (newSources: ISource[], newTargets: ITarget[]) => {
+                        updateSourcesList(newSources)
+                        updateTargetList(newTargets)
+                        sources = newSources
+                        targets = newTargets
+                        socket.emit(
+                            IO.UPDATE_CLIENT,
+                            sources,
+                            targets,
+                            discoveredNdiSources
+                        )
+                    }
+                )
         })
     }
 
