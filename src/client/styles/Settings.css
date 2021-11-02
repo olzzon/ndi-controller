@@ -32,14 +32,16 @@
 
 .settings-cancel {
     position: absolute;
-    bottom: 50px;
+    bottom: 10px;
     color: aliceblue;
     background-color: rgb(83, 83, 83);
+    font-size: 1.4rem;
 }
 .settings-update {
     position: absolute;
-    bottom: 50px;
-    left: 100px;
+    bottom: 10px;
+    margin-left: 250px;
     color: aliceblue;
     background-color: rgb(168, 13, 13);
+    font-size: 1.4rem;
 }

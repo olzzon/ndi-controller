@@ -146,7 +146,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
     }
 
     return (
-        <div>
+        <div className="container">
             <div className="settings">
                 {renderSourceList()}
                 {renderTargetList()}

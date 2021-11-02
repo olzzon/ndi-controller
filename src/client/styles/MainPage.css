@@ -19,7 +19,7 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     margin-top: 5vh;
-    margin-bottom: 5vh;
+    margin-bottom: 60px;
     width: 50vw;
     font-size: 1.6rem;
     align-items: center;
@@ -30,6 +30,15 @@ body {
     bottom: 10px;
     margin-left: 10px;
     color: red;
+}
+
+.foot-settings {
+    position: absolute;
+    bottom: 10px;
+    margin-left: 10px;
+    color: white;
+    background-color: rgb(59, 0, 0);
+    font-size: 1.4rem;
 }
 
 .buttons {

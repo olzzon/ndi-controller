@@ -52,19 +52,21 @@ const MainPage = () => {
         <React.Fragment>
             <div className={'container'}>
                 <div className={'header'}>NDI CONTROLLER</div>
-                <div className="buttons">
+            </div>
+            {!showSettings ? (
+                <React.Fragment>
+                    <Matrix sources={sources} targets={targets} />
+                    <div className="container">
                     <button
-                        className="button"
+                        className="foot-settings"
                         onClick={() => {
                             handleShowSettings()
                         }}
                     >
                         SETTINGS
                     </button>
-                </div>
-            </div>
-            {!showSettings ? (
-                <Matrix sources={sources} targets={targets} />
+                    </div>
+                </React.Fragment>
             ) : (
                 <SettingsPage
                     sources={sources}
