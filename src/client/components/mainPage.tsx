@@ -49,22 +49,20 @@ const MainPage = () => {
     }
 
     return (
-        <React.Fragment>
-            <div className={'container'}>
-                <div className={'header'}>NDI CONTROLLER</div>
-            </div>
+        <div className={'container'}>
+            <div className={'header'}>NDI CONTROLLER</div>
             {!showSettings ? (
                 <React.Fragment>
                     <Matrix sources={sources} targets={targets} />
-                    <div className="container">
-                    <button
-                        className="foot-settings"
-                        onClick={() => {
-                            handleShowSettings()
-                        }}
-                    >
-                        SETTINGS
-                    </button>
+                    <div className="foot-container">
+                        <button
+                            className="foot-settings"
+                            onClick={() => {
+                                handleShowSettings()
+                            }}
+                        >
+                            SETTINGS
+                        </button>
                     </div>
                 </React.Fragment>
             ) : (
@@ -76,10 +74,7 @@ const MainPage = () => {
                     handleShowSettings={handleShowSettings}
                 />
             )}
-            <div className="foot-ndi">
-                NDI® is a registered trademark of NewTek, Inc.: http://ndi.tv/
-            </div>
-        </React.Fragment>
+        </div>
     )
 }
 

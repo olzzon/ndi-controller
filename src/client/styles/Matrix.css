@@ -4,6 +4,7 @@
     flex-wrap: nowrap;
     justify-content: left;
     color: rgb(190, 190, 190);
+    min-height: 75vh;
 }
 
 
@@ -14,7 +15,7 @@
 }
 
 .matrixsourcetarget {
-    margin-top: 10px;
+    margin-top: 80px;
     line-height: 20px;
     font-size: 15px;
     margin-bottom: 20px;
@@ -22,7 +23,7 @@
 
 
 .matrixsource {
-    line-height: 38px;
+    line-height: 39px;
     font-size: 20px;
 }
 
@@ -42,11 +43,11 @@
 }
 
 .matrix_target_label {
-    direction: rtl;
-    transform: rotate(90deg);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    word-wrap: break-word;
+    height: 120px;
     font-size: 20px;
-    height: 2px;
-    margin-bottom: 40px;
 }
 
 .matrix_connection_botton {

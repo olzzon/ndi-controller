@@ -36,7 +36,7 @@ const Matrix: React.FC<IMatrixProps> = (props) => {
                     return (
                         <div key={targetIndex} className="matrixtarget">
                             <div className={'matrix_target_label'}>
-                                {target.label}
+                                {target.label.substring(0,12)}
                             </div>
                             {props.sources.map(
                                 (source: ISource, sourceIndex: number) => {
