@@ -151,12 +151,14 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                 {renderSourceList()}
                 {renderTargetList()}
             </div>
+            <div className="foot-container">
+
             <button
                 className="settings-cancel"
                 onClick={() => {
                     handleCancelSettings()
                 }}
-            >
+                >
                 CANCEL
             </button>
             <button
@@ -164,9 +166,10 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                 onClick={() => {
                     handleSaveSettings()
                 }}
-            >
+                >
                 UPDATE
             </button>
+                </div>
             {selectedSourceIndex === -1 ? (
                 <React.Fragment />
             ) : (

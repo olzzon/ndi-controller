@@ -39,7 +39,7 @@ body {
     border-style: solid;
     width: 100%;
     height: 60px;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
     display: flex;
 }
