@@ -33,13 +33,13 @@
 }
 
 .settings-cancel {
-    color: aliceblue;
+    color: rgb(182, 181, 181);
     background-color: rgb(83, 83, 83);
     font-size: 1.4rem;
 }
 .settings-update {
     margin-left: 5px;
-    color: aliceblue;
+    color: rgb(182, 182, 182);
     background-color: rgb(59, 0, 0);
     font-size: 1.4rem;
 }

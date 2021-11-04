@@ -23,6 +23,7 @@ body {
     height: 60px;
     width: 100%;
     margin-bottom: 20px;
+    color:rgb(100, 100, 100);
     background-color: black;
     font-size: 1.6rem;
     border-bottom: 3px;
@@ -46,7 +47,7 @@ body {
 
 .foot-settings {
     margin-left: 10px;
-    color: white;
+    color: rgb(182, 182, 182);
     background-color: rgb(59, 0, 0);
     font-size: 1.4rem;
 }
@@ -76,5 +77,5 @@ body {
 .logo {
     position: absolute;
     top: 12px;
-    right: 5px;
+    right: 10px;
 }
