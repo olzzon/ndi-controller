@@ -67,7 +67,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                                 onClick={() => {
                                     handleSettingsSourcePopup(sourceIndex)
                                 }}
-                                className="settings-item"
+                                className="settings-button"
                             >
                                 {source.label}
                             </button>
@@ -78,7 +78,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                     onClick={() => {
                         handleAddSource()
                     }}
-                    className="settings-item"
+                    className="settings-add-source"
                 >
                     ADD SOURCE
                 </button>
@@ -98,7 +98,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                                 onClick={() => {
                                     handleSettingsTargetPopup(targetIndex)
                                 }}
-                                className="settings-item"
+                                className="settings-button"
                             >
                                 {target.label}
                             </button>
@@ -109,7 +109,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                     onClick={() => {
                         handleAddTarget()
                     }}
-                    className="settings-item"
+                    className="settings-add-source"
                 >
                     ADD TARGET
                 </button>
