@@ -32,6 +32,13 @@ const SettingsSourcePopUp: React.FC<ISettingsSourcePopup> = (props) => {
         props.setSelectedPopUp(-1)
     }
 
+    const handleRemoveSource = (sourceIndex: number) => {
+        let newSources = props.sources
+        newSources.splice(sourceIndex, 1)
+        props.setSources(newSources)
+        props.setSelectedPopUp(-1)
+    }
+
     const handleSelectNdiSource = (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
@@ -103,6 +110,15 @@ const SettingsSourcePopUp: React.FC<ISettingsSourcePopup> = (props) => {
             >
                 DISCOVER NDI
             </button>
+            <button
+                                onClick={() => {
+                                    handleRemoveSource(props.selectedPopUp)
+                                }}
+                                className="settings-delete"
+                            >
+                                delete
+                            </button>
+
             <button
                 onClick={() => {
                     handleCancelChange()

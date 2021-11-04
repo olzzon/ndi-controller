@@ -27,6 +27,13 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
         props.setSelectedPopUp(-1)
     }
 
+    const handleRemoveTarget = (targetIndex: number) => {
+        let newTargets = props.targets
+        newTargets.splice(targetIndex, 1)
+        props.setTargets(newTargets)
+        props.setSelectedPopUp(-1)
+    }
+
     const handleUserLabelInput = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -46,6 +53,15 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
                     onChange={(event) => handleUserLabelInput(event)}
                 />
             </label>
+            <button
+                                onClick={() => {
+                                    handleRemoveTarget(props.selectedPopUp)
+                                }}
+                                className="settings-delete"
+                            >
+                                delete
+                            </button>
+
             <button
                 onClick={() => {
                     handleCancelChange()

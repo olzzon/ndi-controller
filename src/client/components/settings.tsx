@@ -44,12 +44,6 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
         setselectedSourceIndex(newSources.length - 1)
     }
 
-    const handleRemoveSource = (sourceIndex: number) => {
-        let newSources = [...settingsSources]
-        newSources.splice(sourceIndex, 1)
-        setSettingsSources(newSources)
-    }
-
     const handleSettingsTargetPopup = (targetIndex: number) => {
         setselectedTargetIndex(targetIndex)
     }
@@ -59,12 +53,6 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
         newTargets.push({ label: '', selectedSource: 0 })
         setSettingsTargets(newTargets)
         setselectedTargetIndex(newTargets.length - 1)
-    }
-
-    const handleRemoveTarget = (targetIndex: number) => {
-        let newTargets = [...settingsTargets]
-        newTargets.splice(targetIndex, 1)
-        setSettingsTargets(newTargets)
     }
 
     const renderSourceList = () => {
@@ -82,14 +70,6 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                                 className="settings-item"
                             >
                                 {source.label}
-                            </button>
-                            <button
-                                onClick={() => {
-                                    handleRemoveSource(sourceIndex)
-                                }}
-                                className="settings-delete"
-                            >
-                                delete
                             </button>
                         </div>
                     )
@@ -121,14 +101,6 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                                 className="settings-item"
                             >
                                 {target.label}
-                            </button>
-                            <button
-                                onClick={() => {
-                                    handleRemoveTarget(targetIndex)
-                                }}
-                                className="settings-delete"
-                            >
-                                delete
                             </button>
                         </div>
                     )
