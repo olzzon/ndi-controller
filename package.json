@@ -17,11 +17,8 @@
         "build": "yarn build-client && yarn build-server",
         "build-server": "tsc -p ./src/server",
         "build-client": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"./src/client/tsconfig.json\" webpack && cp ./src/client/index.html ./build/client/index.html",
-        "start": "node build/server/index.js",
-        "start-dev": "node --inspect ./build/server/server.js",
-        "start-break": "node --inspect-brk ./build/server/server.js",
-        "dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
-        "electron": "wait-on tcp:5901 && electron .",
+        "dev": "electron .",
+        "build-release": "electron-builder",
         "package": "yarn pkg .",
         "release": "standard-version",
         "prepareChangelog": "standard-version --prerelease",
@@ -85,6 +82,11 @@
         "webpack-cli": "^4.7.2"
     },
     "build": {
-        "appId": "com.olzzon.ndi-controller"
+        "appId": "com.ndi-controller.app",
+        "files": [
+            "build/**/*",
+            "public/**/*",
+            "!src/**/*"
+        ]
     }
 }

@@ -2,6 +2,7 @@ const path = require('path');
 
 const { app, BrowserWindow } = require('electron');
 const isDev = require('electron-is-dev');
+const server = require('../build/server/index.js')
 
 function createWindow() {
   // Create the browser window.
@@ -16,9 +17,7 @@ function createWindow() {
   // and load the index.html of the app.
   // win.loadFile("index.html");
   win.loadURL(
-    isDev
-      ? 'http://localhost:5901'
-      : `file://${path.join(__dirname, '../build/client/index.html')}`
+      'http://localhost:5901'
   );
   // Open the DevTools.
   if (isDev) {

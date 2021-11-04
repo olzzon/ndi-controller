@@ -3,12 +3,13 @@ import { logger } from './logger'
 // Node Modules:
 const fs = require('fs')
 const path = require('path')
+const homeDir = require("os").homedir()
 
 export const loadSourceList = (): ISource[] => {
     let sources: ISource[] = []
     try {
         sources = JSON.parse(
-            fs.readFileSync(path.resolve('storage', 'sources.json'))
+            fs.readFileSync(path.resolve(homeDir, 'ndi-controller', 'sources.json'))
         )
     } catch (error) {
         logger.error(
@@ -23,7 +24,7 @@ export const loadTargetList = (): ITarget[] => {
     let targets: ITarget[] = []
     try {
         targets = JSON.parse(
-            fs.readFileSync(path.resolve('storage', 'targets.json'))
+            fs.readFileSync(path.resolve(homeDir, 'ndi-controller', 'targets.json'))
         )
     } catch (error) {
         logger.error(
@@ -36,11 +37,11 @@ export const loadTargetList = (): ITarget[] => {
 
 export const updateTargetList = (targets: ITarget[]) => {
     let json = JSON.stringify(targets)
-    if (!fs.existsSync('storage')) {
-        fs.mkdirSync('storage')
+    if (!fs.existsSync(path.resolve(homeDir, 'ndi-controller'))) {
+        fs.mkdirSync(path.resolve(homeDir, 'ndi-controller'))
     }
     fs.writeFile(
-        path.resolve('storage', 'targets.json'),
+        path.resolve(homeDir, 'ndi-controller', 'targets.json'),
         json,
         'utf8',
         (error: any) => {
@@ -57,11 +58,11 @@ export const updateTargetList = (targets: ITarget[]) => {
 export const updateSourcesList = (sources: ISource[]) => {
     console.log('Saving Sources list :', sources)
     let json = JSON.stringify(sources)
-    if (!fs.existsSync('storage')) {
-        fs.mkdirSync('storage')
+    if (!fs.existsSync(path.resolve(homeDir, 'ndi-controller'))) {
+        fs.mkdirSync(path.resolve(homeDir, 'ndi-controller'))
     }
     fs.writeFile(
-        path.resolve('storage', 'sources.json'),
+        path.resolve(homeDir, 'ndi-controller', 'sources.json'),
         json,
         'utf8',
         (error: any) => {
