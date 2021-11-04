@@ -1,7 +1,7 @@
 import '../styles/MainPage.css'
 import * as IO from '../../models/SOCKET_IO_CONTANTS'
 //@ts-ignore
-import logo from '../assets/logo.png'
+import logo from '../assets/logo_black.png'
 
 import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
@@ -53,7 +53,7 @@ const MainPage = () => {
     return (
         <div className={'container'}>
             <div className={'header'}>
-            <img className={"logo"} src={logo} width="70" height="60"/>
+            <img className={"logo"} src={logo} width="90" height="35"/>
                 NDI CONTROLLER
                 </div>
             {!showSettings ? (
