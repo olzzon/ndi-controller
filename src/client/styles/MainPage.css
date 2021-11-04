@@ -73,3 +73,8 @@ body {
     transform: translateY(2px);
 }
 
+.logo {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+}

@@ -12,6 +12,10 @@ module.exports = {
                 use: ['style-loader', 'css-loader'],
                 exclude: /\.module\.css$/,
             },
+            {
+                test: /\.(png|jpe?g|svg)$/,
+                loader: 'file-loader'
+            }
         ],
     },
     resolve: {

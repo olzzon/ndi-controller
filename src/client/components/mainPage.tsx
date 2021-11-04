@@ -1,5 +1,7 @@
 import '../styles/MainPage.css'
 import * as IO from '../../models/SOCKET_IO_CONTANTS'
+//@ts-ignore
+import logo from '../assets/logo.png'
 
 import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
@@ -50,7 +52,10 @@ const MainPage = () => {
 
     return (
         <div className={'container'}>
-            <div className={'header'}>NDI CONTROLLER</div>
+            <div className={'header'}>
+            <img className={"logo"} src={logo} width="70" height="60"/>
+                NDI CONTROLLER
+                </div>
             {!showSettings ? (
                 <React.Fragment>
                     <Matrix sources={sources} targets={targets} />
