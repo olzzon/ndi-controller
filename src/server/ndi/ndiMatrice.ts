@@ -35,5 +35,5 @@ export const discoverNdiSources = (): IDiscoveredNdiSource[] => {
     let status = ndi_mtx.findSources()
 
     console.log('SEARCHING FOR NDI SOURCES FINISHED', status)
-    return [{ name: 'Discovered Sources :', url: '0.0.0.0' }, ...status]
+    return [{ name: 'Select a discovered NDI Source :', url: '0.0.0.0' }, ...status]
 }

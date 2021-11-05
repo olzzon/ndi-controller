@@ -13,12 +13,16 @@ interface ISettingsSourcePopup {
 }
 
 const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
-    const [label, setLabel] = useState<string>(props.targets[props.selectedPopUp].label)
-    const [selectedSource] = useState<number>(props.targets[props.selectedPopUp].selectedSource)
+    const [label, setLabel] = useState<string>(
+        props.targets[props.selectedPopUp].label
+    )
+    const [selectedSource] = useState<number>(
+        props.targets[props.selectedPopUp].selectedSource
+    )
 
     const handleUpdateChange = () => {
         let newTargets: ITarget[] = props.targets
-        newTargets[props.selectedPopUp] = {label, selectedSource}
+        newTargets[props.selectedPopUp] = { label, selectedSource }
         props.setTargets(newTargets)
         props.setSelectedPopUp(-1)
     }
@@ -42,40 +46,43 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
 
     return (
         <div className="settings-popup">
-            <div className="settings-popup-header">
-                Change Target Label:
-            </div>
-            <label className="settings-popup-input">
+            <div className="settings-popup-header">Change Target Label:</div>
+            <label className="settings-popup-label">
                 Label :
                 <input
+                    className="settings-popup-input"
                     type="text"
                     value={label}
                     onChange={(event) => handleUserLabelInput(event)}
                 />
             </label>
-            <button
-                                onClick={() => {
-                                    handleRemoveTarget(props.selectedPopUp)
-                                }}
-                                className="settings-delete"
-                            >
-                                delete
-                            </button>
+            <div className="settings-popup-container-foot">
+                <button
+                    onClick={() => {
+                        handleRemoveTarget(props.selectedPopUp)
+                    }}
+                    className="settings-popup-delete"
+                >
+                    delete
+                </button>
 
-            <button
-                onClick={() => {
-                    handleCancelChange()
-                }}
-            >
-                CANCEL
-            </button>
-            <button
-                onClick={() => {
-                    handleUpdateChange()
-                }}
-            >
-                UPDATE
-            </button>
+                <button
+                    className="settings-popup-cancel"
+                    onClick={() => {
+                        handleCancelChange()
+                    }}
+                >
+                    CANCEL
+                </button>
+                <button
+                    className="settings-popup-update"
+                    onClick={() => {
+                        handleUpdateChange()
+                    }}
+                >
+                    UPDATE
+                </button>
+            </div>
         </div>
     )
 }

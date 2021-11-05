@@ -13,9 +13,15 @@ interface ISettingsSourcePopup {
 }
 
 const SettingsSourcePopUp: React.FC<ISettingsSourcePopup> = (props) => {
-    const [label, setLabel] = useState<string>(props.sources[props.selectedPopUp].label)
-    const [dnsName, setDnsName] = useState<string>(props.sources[props.selectedPopUp].dnsName)
-    const [url, setUrl] = useState<string>(props.sources[props.selectedPopUp].url)
+    const [label, setLabel] = useState<string>(
+        props.sources[props.selectedPopUp].label
+    )
+    const [dnsName, setDnsName] = useState<string>(
+        props.sources[props.selectedPopUp].dnsName
+    )
+    const [url, setUrl] = useState<string>(
+        props.sources[props.selectedPopUp].url
+    )
 
     const handleDiscoverNDISources = () => {
         socketClient.emit(IO.DISCOVER_NDI_SOURCES)
@@ -23,7 +29,7 @@ const SettingsSourcePopUp: React.FC<ISettingsSourcePopup> = (props) => {
 
     const handleUpdateChange = () => {
         let newSources: ISource[] = props.sources
-        newSources[props.selectedPopUp] = {label, dnsName, url}
+        newSources[props.selectedPopUp] = { label, dnsName, url }
         props.setSources(newSources)
         props.setSelectedPopUp(-1)
     }
@@ -64,75 +70,86 @@ const SettingsSourcePopUp: React.FC<ISettingsSourcePopup> = (props) => {
             <div className="settings-popup-header">
                 Change Source : {props.sources[props.selectedPopUp].dnsName}
             </div>
-            <label className="settings-popup-input">
+            <label className="settings-popup-label">
                 Label :
                 <input
+                    className="settings-popup-input"
                     type="text"
                     value={label}
                     onChange={(event) => handleUserLabelInput(event)}
                 />
             </label>
-            <label className="settings-popup-input">
+            <label className="settings-popup-label">
                 NDI Name :
                 <input
+                    className="settings-popup-input"
                     type="text"
                     value={dnsName}
                     onChange={(event) => handleUserDnsInput(event)}
                 />
             </label>
-            <label className="settings-popup-input">
+            <label className="settings-popup-label">
                 NDI URL :
                 <input
+                    className="settings-popup-input"
                     type="text"
                     value={url}
                     onChange={(event) => handleUserIpInput(event)}
                 />
             </label>
-            <select onChange={(event) => handleSelectNdiSource(event)}>
-                {props.discoveredNdiSources.map(
-                    (discoveredNdiSource: IDiscoveredNdiSource, index: number) => {
-                        return (
-                            <option
-                                className="settings-popup-select"
-                                key={index}
-                                value={index}
-                            >
-                                {discoveredNdiSource.name}
-                            </option>
-                        )
-                    }
-                )}
-            </select>
-            <button
-                onClick={() => {
-                    handleDiscoverNDISources()
-                }}
-            >
-                DISCOVER NDI
-            </button>
-            <button
-                                onClick={() => {
-                                    handleRemoveSource(props.selectedPopUp)
-                                }}
-                                className="settings-delete"
-                            >
-                                delete
-                            </button>
-
-            <button
-                onClick={() => {
-                    handleCancelChange()
-                }}
-            >
-                CANCEL
-            </button>
-            <button
-                onClick={() => {
-                    handleUpdateChange()
-                }}
-            >
-                UPDATE
-            </button>
+            <div className="settings-popup-container-select">
+                <select
+                    className="settings-popup-select"
+                    onChange={(event) => handleSelectNdiSource(event)}
+                >
+                    {props.discoveredNdiSources.map(
+                        (
+                            discoveredNdiSource: IDiscoveredNdiSource,
+                            index: number
+                        ) => {
+                            return (
+                                <option key={index} value={index}>
+                                    {discoveredNdiSource.name}
+                                </option>
+                            )
+                        }
+                    )}
+                </select>
+                <button
+                    className="settings-popup-ndi"
+                    onClick={() => {
+                        handleDiscoverNDISources()
+                    }}
+                >
+                    RE-DISCOVER
+                </button>
+            </div>
+            <div className="settings-popup-container-foot">
+                <button
+                    onClick={() => {
+                        handleRemoveSource(props.selectedPopUp)
+                    }}
+                    className="settings-popup-delete"
+                >
+                    REMOVE SOURCE
+                </button>
+                <button
+                    className="settings-popup-cancel"
+                    onClick={() => {
+                        handleCancelChange()
+                    }}
+                >
+                    CANCEL
+                </button>
+                <button
+                    className="settings-popup-update"
+                    onClick={() => {
+                        handleUpdateChange()
+                    }}
+                >
+                    UPDATE
+                </button>
+            </div>
         </div>
     )
 }
