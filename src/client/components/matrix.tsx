@@ -53,7 +53,7 @@ const Matrix: React.FC<IMatrixProps> = (props) => {
                                         >
                                             {target.selectedSource ===
                                             sourceIndex ? (
-                                                'X'
+                                                <span>&#11044;</span>
                                             ) : (
                                                 <React.Fragment />
                                             )}

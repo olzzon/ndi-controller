@@ -51,11 +51,11 @@
 }
 
 .matrix_connection_botton {
-    color: white;
-    background-color: rgb(73, 73, 73);
+    color: rgb(26, 30, 39);
+    background-color: rgb(93, 93, 93);
     margin-top: 3px;
     margin-left: 2px;
     height: 35px;
     width: 35px;
-    font-size: 20px;
+    font-size: 17px;
 }
