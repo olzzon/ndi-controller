@@ -9,7 +9,7 @@
       'conditions': [
         ['OS=="win"', {
           "link_settings": {
-            "libraries": [ "Processing.NDI.Lib.x64.lib" ],
+            "libraries": [ "Processing.NDI.Lib.x64.dll" ],
             "library_dirs": [ "lib/win_x64" ]
           },
           "copies": [
@@ -36,13 +36,13 @@
               },
               "link_settings": {
                 "libraries": [
-                  "<(module_root_dir)/build/Release/libndi.dylib"
+                  "<(module_root_dir)/build/Release/libndi_advanced.dylib"
                 ],
                 "copies": [
                   {
                     "destination": "build/Release/",
                     "files": [
-                      "<!@(ls -1 lib/mac_x64/libndi.dylib)"
+                      "<!@(ls -1 lib/mac_x64/libndi_advanced.dylib)"
                     ]
                   }
                 ]
