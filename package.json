@@ -18,7 +18,7 @@
         "build-server": "tsc -p ./src/server",
         "build-client": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"./src/client/tsconfig.json\" webpack && cp ./src/client/index.html ./build/client/index.html",
         "dev": "electron .",
-        "build-release": "electron-builder",
+        "build-release": "electron-builder -mw",
         "package": "yarn pkg .",
         "release": "standard-version",
         "prepareChangelog": "standard-version --prerelease",
