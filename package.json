@@ -83,7 +83,8 @@
     },
     "build": {
         "appId": "com.ndi-controller.app",
-        "asar": false,
+        "asar": true,
+        "asarUnpack": ["**/build/Release/**/*"],
         "files": [
             "build/**/*",
             "public/**/*",
