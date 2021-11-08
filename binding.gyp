@@ -36,13 +36,13 @@
               },
               "link_settings": {
                 "libraries": [
-                  "<(module_root_dir)/build/Release/libndi_advanced.dylib"
+                  "<(module_root_dir)/build/Release/libndi.4.dylib"
                 ],
                 "copies": [
                   {
                     "destination": "build/Release/",
                     "files": [
-                      "<!@(ls -1 lib/mac_x64/libndi_advanced.dylib)"
+                      "<!@(ls -1 lib/mac_x64/libndi.4.dylib)"
                     ]
                   }
                 ]

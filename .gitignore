@@ -10,3 +10,4 @@ node_modules/
 
 #other:
 storage/
+.DS_Store
