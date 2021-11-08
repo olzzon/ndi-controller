@@ -9,7 +9,7 @@
       'conditions': [
         ['OS=="win"', {
           "link_settings": {
-            "libraries": [ "Processing.NDI.Lib.x64.dll" ],
+            "libraries": [ "Processing.NDI.Lib.x64.lib" ],
             "library_dirs": [ "lib/win_x64" ]
           },
           "copies": [
