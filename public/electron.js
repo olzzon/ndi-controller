@@ -7,8 +7,11 @@ const server = require('../build/server/index.js')
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 1024,
-    height: 640,
+    width: 1280,
+    height: 800,
+    minWidth: 800,
+    minHeight: 600,
+    darkTheme: true,
     webPreferences: {
       nodeIntegration: true,
     },

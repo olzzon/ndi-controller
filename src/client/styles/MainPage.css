@@ -46,10 +46,10 @@ body {
 }
 
 .foot-settings {
-    margin-left: 10px;
+    margin-left: 85%;
     color: rgb(182, 182, 182);
-    background-color: rgb(59, 0, 0);
-    font-size: 1.4rem;
+    background-color: rgb(58, 58, 58);
+    font-size: 1.2rem;
 }
 
 .buttons {

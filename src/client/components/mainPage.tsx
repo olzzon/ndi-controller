@@ -53,9 +53,9 @@ const MainPage = () => {
     return (
         <div className={'container'}>
             <div className={'header'}>
-            <img className={"logo"} src={logo} width="90" height="35"/>
+                <img className={'logo'} src={logo} width="90" height="35" />
                 NDI CONTROLLER
-                </div>
+            </div>
             {!showSettings ? (
                 <React.Fragment>
                     <Matrix sources={sources} targets={targets} />
@@ -66,7 +66,7 @@ const MainPage = () => {
                                 handleShowSettings()
                             }}
                         >
-                            SETTINGS
+                            MTX SETUP
                         </button>
                     </div>
                 </React.Fragment>
