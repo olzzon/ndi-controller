@@ -10,7 +10,12 @@ import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 import { changeNdiRoutingSource, discoverNdiSources } from '../ndi/ndiMatrice'
 import { setMatrixConnection } from '../ember/emberLocalClient'
 import { emberServer } from '../ember/emberServer'
-import { updateSourcesList, updateTargetList } from '../utils/storage'
+import {
+    loadTargetList,
+    updateSourcesList,
+    updateTargetList,
+} from '../utils/storage'
+import { setAllCrossPoints } from '../utils/setCrossPoints'
 
 let socketClients: any[] = []
 
@@ -62,7 +67,7 @@ export const webServer = (
                     IO.SAVE_SETTINGS,
                     (newSources: ISource[], newTargets: ITarget[]) => {
                         updateSourcesList(newSources)
-                        updateTargetList(newTargets)
+                        updateTargetList('targets', newTargets)
                         sources = newSources
                         targets = newTargets
                         socket.emit(
@@ -73,6 +78,18 @@ export const webServer = (
                         )
                     }
                 )
+                .on(IO.LOAD_PRESET, (presetName: string) => {
+                    let newTargets = loadTargetList(presetName)
+                    if (newTargets.length > 0) {
+                        newTargets.forEach((target: ITarget, index: number) => {
+                            targets[index].selectedSource = target.selectedSource
+                        })
+                        setAllCrossPoints(sources, targets)
+                    }
+                })
+                .on(IO.SAVE_PRESET, (presetName: string) => {
+                    updateTargetList(presetName, targets)
+                })
         })
     }
 
@@ -102,7 +119,7 @@ export const webServer = (
                     targets,
                     discoveredNdiSources
                 )
-                updateTargetList(targets)
+                updateTargetList('targets', targets)
             })
             .on('matrix-change', (info) => {
                 logger.info(
@@ -120,7 +137,7 @@ export const webServer = (
                     targets,
                     discoveredNdiSources
                 )
-                updateTargetList(targets)
+                updateTargetList('targets', targets)
             })
     }
 

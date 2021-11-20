@@ -11,6 +11,8 @@ import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 
 export const socketClient = io()
 
+const presetList = ['Preset 1', 'Preset 2', 'Preset 3', 'Preset 4']
+
 const MainPage = () => {
     const [showSettings, setShowSettings] = useState<boolean>(false)
     const [targets, setTargets] = useState<ITarget[]>([])
@@ -50,6 +52,47 @@ const MainPage = () => {
         setShowSettings(!showSettings)
     }
 
+    const handleLoadPreset = (index: number) => {
+        if (window.confirm('Are you sure you wan´t to load Preset ' + (index +1))) {
+            socketClient.emit(IO.LOAD_PRESET, presetList[index])
+        }
+    }
+
+    const handleSavePreset = (index: number) => {
+        if (window.confirm('SAVE PRESET ' + (index + 1))) {
+            socketClient.emit(IO.SAVE_PRESET, presetList[index])
+        }
+    }
+
+    const Presets = () => {
+        return (
+            <React.Fragment>
+                {presetList.map((preset: string, index: number) => {
+                    return (
+                        <React.Fragment>
+                            <button
+                                className="foot-preset-button"
+                                onClick={() => {
+                                    handleLoadPreset(index)
+                                }}
+                            >
+                                {preset}
+                            </button>
+                            <button
+                                className="foot-preset-save-button"
+                                onClick={() => {
+                                    handleSavePreset(index)
+                                }}
+                            >
+                                SAVE
+                            </button>
+                        </React.Fragment>
+                    )
+                })}
+            </React.Fragment>
+        )
+    }
+
     return (
         <div className={'container'}>
             <div className={'header'}>
@@ -60,6 +103,7 @@ const MainPage = () => {
                 <React.Fragment>
                     <Matrix sources={sources} targets={targets} />
                     <div className="foot-container">
+                        <Presets />
                         <button
                             className="foot-settings"
                             onClick={() => {

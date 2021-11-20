@@ -3,54 +3,52 @@ import { logger } from './logger'
 // Node Modules:
 const fs = require('fs')
 const path = require('path')
-const homeDir = require("os").homedir()
+const homeDir = require('os').homedir()
 
 export const loadSourceList = (): ISource[] => {
     let sources: ISource[] = []
     try {
         sources = JSON.parse(
-            fs.readFileSync(path.resolve(homeDir, 'ndi-controller', 'sources.json'))
+            fs.readFileSync(
+                path.resolve(homeDir, 'ndi-controller', 'sources.json')
+            )
         )
     } catch (error) {
-        logger.error(
-            'Couldn´t read sources.json file, returning empty source list ',
-            error
-        )
+        return []
     }
     return sources
 }
 
-export const loadTargetList = (): ITarget[] => {
+export const loadTargetList = (fileName: string): ITarget[] => {
     let targets: ITarget[] = []
     try {
         targets = JSON.parse(
-            fs.readFileSync(path.resolve(homeDir, 'ndi-controller', 'targets.json'))
+            fs.readFileSync(
+                path.resolve(homeDir, 'ndi-controller', fileName + '.json')
+            )
         )
     } catch (error) {
-        logger.error(
-            'Couldn´t read targets.json file, returning empty source list '
-        )
-        logger.error(error)
+        return []
     }
     return targets
 }
 
-export const updateTargetList = (targets: ITarget[]) => {
+export const updateTargetList = (fileName: string, targets: ITarget[]) => {
     let json = JSON.stringify(targets)
     if (!fs.existsSync(path.resolve(homeDir, 'ndi-controller'))) {
         fs.mkdirSync(path.resolve(homeDir, 'ndi-controller'))
     }
     fs.writeFile(
-        path.resolve(homeDir, 'ndi-controller', 'targets.json'),
+        path.resolve(homeDir, 'ndi-controller', fileName + '.json'),
         json,
         'utf8',
         (error: any) => {
-            if( error) {
-               logger.error('Error writing targets.json file')
-                console.log('Error writing targets.json file: ', error)
+            if (error) {
+                logger.error('Error writing ' + fileName + '.json file')
+                console.log('Error writing .json file: ', error)
+            } else {
+                logger.info(fileName + '.json file updated')
             }
-            else
-            { logger.info('targets.json file updated')}
         }
     )
 }
@@ -66,12 +64,12 @@ export const updateSourcesList = (sources: ISource[]) => {
         json,
         'utf8',
         (error: any) => {
-            if( error) {
-               logger.error('Error writing sources.json file')
+            if (error) {
+                logger.error('Error writing sources.json file')
                 console.log('Error writing sources.json file: ', error)
+            } else {
+                logger.info('sources.json file updated')
             }
-            else
-            { logger.info('sources.json file updated')}
         }
     )
 }

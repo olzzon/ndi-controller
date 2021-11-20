@@ -46,10 +46,24 @@ body {
 }
 
 .foot-settings {
-    margin-left: 85%;
+    margin-left: 22%;
     color: rgb(182, 182, 182);
     background-color: rgb(58, 58, 58);
     font-size: 1.2rem;
+}
+
+.foot-preset-button {
+    color: rgb(182, 182, 182);
+    background-color: rgb(58, 58, 58);
+    font-size: 1.2rem;
+    height: 30px;
+}
+.foot-preset-save-button {
+    margin-right: 2%;
+    color: rgb(173, 173, 173);
+    background-color: rgb(42, 24, 24);
+    font-size: 0.8rem;
+    height: 30px;
 }
 
 .buttons {
