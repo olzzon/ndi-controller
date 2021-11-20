@@ -1,6 +1,6 @@
 {
     "name": "ndi-controller",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Manage and route your NDI signals",
     "author": "Olzzon /Kasper Olsson Hans",
     "main": "public/electron.js",
@@ -84,7 +84,9 @@
     "build": {
         "appId": "com.ndi-controller.app",
         "asar": true,
-        "asarUnpack": ["**/build/Release/**/*"],
+        "asarUnpack": [
+            "**/build/Release/**/*"
+        ],
         "files": [
             "build/**/*",
             "public/**/*",
