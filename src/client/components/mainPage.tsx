@@ -11,7 +11,7 @@ import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 
 export const socketClient = io()
 
-const presetList = ['Preset 1', 'Preset 2', 'Preset 3', 'Preset 4']
+const presetList = ['Salvo 1', 'Salvo 2', 'Salvo 3', 'Salvo 4']
 
 const MainPage = () => {
     const [showSettings, setShowSettings] = useState<boolean>(false)
@@ -54,13 +54,13 @@ const MainPage = () => {
     }
 
     const handleLoadPreset = (index: number) => {
-        if (window.confirm('Are you sure you wan´t to load Preset ' + (index +1))) {
+        if (window.confirm('Load Salvo ' + (index +1) + ' ?')) {
             socketClient.emit(IO.LOAD_PRESET, presetList[index])
         }
     }
 
     const handleSavePreset = (index: number) => {
-        if (window.confirm('SAVE PRESET ' + (index + 1))) {
+        if (window.confirm('Are you sure you wan´t to save Salvo ' + (index + 1)+ ' ?')) {
             socketClient.emit(IO.SAVE_PRESET, presetList[index])
         }
     }
