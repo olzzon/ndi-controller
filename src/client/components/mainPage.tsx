@@ -20,6 +20,7 @@ const MainPage = () => {
     const [discoveredNdiSources, setDiscoveredNdiSources] = useState<
         IDiscoveredNdiSource[]
     >([])
+    let saveTimer: NodeJS.Timeout
 
     useEffect(() => {
         socketClient
@@ -64,6 +65,14 @@ const MainPage = () => {
         }
     }
 
+    const startSaveTimer = (index: number) => {
+        saveTimer = setTimeout(() => { handleSavePreset(index)}, 600)
+    }
+
+    const stopSaveTimer = () => {
+        clearTimeout(saveTimer)
+    }
+
     const Presets = () => {
         return (
             <React.Fragment>
@@ -75,17 +84,16 @@ const MainPage = () => {
                                 onClick={() => {
                                     handleLoadPreset(index)
                                 }}
+                                onMouseDown={() => {
+                                    startSaveTimer(index)
+                                }}
+                                onMouseUp={() => {
+                                    stopSaveTimer()
+                                }}
                             >
                                 {preset}
                             </button>
-                            <button
-                                className="foot-preset-save-button"
-                                onClick={() => {
-                                    handleSavePreset(index)
-                                }}
-                            >
-                                SAVE
-                            </button>
+
                         </React.Fragment>
                     )
                 })}
