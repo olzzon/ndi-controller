@@ -15,7 +15,6 @@ import {
     updateSourcesList,
     updateTargetList,
 } from '../utils/storage'
-import { setAllCrossPoints } from '../utils/setCrossPoints'
 
 let socketClients: any[] = []
 
@@ -82,9 +81,10 @@ export const webServer = (
                     let newTargets = loadTargetList(presetName)
                     if (newTargets.length > 0) {
                         newTargets.forEach((target: ITarget, index: number) => {
-                            targets[index].selectedSource = target.selectedSource
+                            targets[index].selectedSource =
+                                target.selectedSource || 0
+                            setMatrixConnection(target.selectedSource, index)
                         })
-                        setAllCrossPoints(sources, targets)
                     }
                 })
                 .on(IO.SAVE_PRESET, (presetName: string) => {
@@ -101,43 +101,35 @@ export const webServer = (
         res.end('Matrix changed')
     }
 
+    const onEmberMtxChange = (info: any) => {
+        if (info.sources[0] !== null) {
+            logger.info(
+                `Ember Client ${info.client} connected target : ${info.target} using source : ${info.sources}`
+            )
+            console.log(info)
+            targets[info.target].selectedSource = parseInt(info.sources)
+            changeNdiRoutingSource(
+                sources[info.sources].url,
+                sources[info.sources].dnsName,
+                info.target
+            )
+            socketServer.emit(
+                IO.UPDATE_CLIENT,
+                sources,
+                targets,
+                discoveredNdiSources
+            )
+            updateTargetList('targets', targets)
+        }
+    }
+
     const emberServerConnetion = () => {
         emberServer
             .on('matrix-connect', (info) => {
-                logger.info(
-                    `Ember Client ${info.client} connected target : ${info.target} using source : ${info.sources}`
-                )
-                targets[info.target].selectedSource = parseInt(info.sources)
-                changeNdiRoutingSource(
-                    sources[info.sources].url,
-                    sources[info.sources].dnsName,
-                    info.target
-                )
-                socketServer.emit(
-                    IO.UPDATE_CLIENT,
-                    sources,
-                    targets,
-                    discoveredNdiSources
-                )
-                updateTargetList('targets', targets)
+                onEmberMtxChange(info)
             })
             .on('matrix-change', (info) => {
-                logger.info(
-                    `Ember Client ${info.client} changed target : ${info.target} using source : ${info.sources}`
-                )
-                targets[info.target].selectedSource = parseInt(info.sources)
-                changeNdiRoutingSource(
-                    sources[info.sources].url,
-                    sources[info.sources].dnsName,
-                    info.target
-                )
-                socketServer.emit(
-                    IO.UPDATE_CLIENT,
-                    sources,
-                    targets,
-                    discoveredNdiSources
-                )
-                updateTargetList('targets', targets)
+                onEmberMtxChange(info)
             })
     }
 

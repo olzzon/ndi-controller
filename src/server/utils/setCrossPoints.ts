@@ -20,6 +20,8 @@ export const setAllCrossPoints = (sources: ISource[], targets: ITarget[]) => {
                 targets[targetIndex].label,
                 targetIndex
             )
+        } else {
+            logger.info('Target Index :'+targetIndex + ' did not have a valid source')
         }
     })
 }
