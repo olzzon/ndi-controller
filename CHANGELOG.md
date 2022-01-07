@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/olzzon/ndi-controller/compare/v0.0.2...v1.1.0) (2022-01-07)
+
+
+### Features
+
+* add pgk for selfcontained nodejs build ([2487f58](https://github.com/olzzon/ndi-controller/commit/2487f58110fa32cd2ab27edf099c9c881b14d497))
+* press and hold to save preset ([4f66098](https://github.com/olzzon/ndi-controller/commit/4f660980ce9924676a3a1ce045c207124e0050f4))
+* Rename to Salvo from Preset ([84f9ac5](https://github.com/olzzon/ndi-controller/commit/84f9ac5e628997a95838fcd98bb3c847c40f51b4))
+
+
+### Bug Fixes
+
+* Ignore Ember source disconnect (clearing happens before setting a new source) ([55b9eca](https://github.com/olzzon/ndi-controller/commit/55b9eca84bf0072eef8c95cf3ff62f6155613c0b))
+
 ### 0.0.2 (2021-11-20)
 
 
