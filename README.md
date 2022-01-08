@@ -28,8 +28,9 @@ You'll get a personal source selector for a single target
 <img src="doc/source-select.png">
 
 
-## Windows Installation: 
-Run the pre-build "ndi-controller Setup x.x.x.exe"
+## Installation: 
+Windows: Run the pre-build "ndi-controller Setup x.x.x.exe"
+Mac: Run the pre-build "ndi-controller-x.x.x.dmg"
 
 ### Build and run:
 ndi_mtx.cc will build when yarn is called.
