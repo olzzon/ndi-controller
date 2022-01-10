@@ -143,7 +143,7 @@ export const webServer = (
             res.sendFile(path.resolve('index.html'))
         })
         app.get('/state', (req: any, res: any) => {
-            res.send({ targets })
+            res.send({ targets, sources })
         }).post('/setmatrix', (req: any, res: any) => {
             RESTsetMatrix(req, res)
         })
