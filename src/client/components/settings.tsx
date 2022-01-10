@@ -124,24 +124,26 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                 {renderTargetList()}
             </div>
             <div className="foot-container">
-
-            <button
-                className="settings-cancel"
-                onClick={() => {
-                    handleCancelSettings()
-                }}
-                >
-                CANCEL
-            </button>
-            <button
-                className="settings-update"
-                onClick={() => {
-                    handleSaveSettings()
-                }}
-                >
-                UPDATE
-            </button>
+                <div className="foot-credits">
+                NDI® is a registered trademark of NewTek, Inc. <a href="https://www.ndi.tv/">www.ndi.tv</a>
                 </div>
+                <button
+                    className="settings-cancel"
+                    onClick={() => {
+                        handleCancelSettings()
+                    }}
+                >
+                    CANCEL
+                </button>
+                <button
+                    className="settings-update"
+                    onClick={() => {
+                        handleSaveSettings()
+                    }}
+                >
+                    UPDATE
+                </button>
+            </div>
             {selectedSourceIndex === -1 ? (
                 <React.Fragment />
             ) : (

@@ -45,6 +45,10 @@ body {
     display: flex;
 }
 
+.foot-credits {
+    margin-right: 30vw;
+}
+
 .foot-settings {
     margin-left: 22%;
     color: rgb(182, 182, 182);
