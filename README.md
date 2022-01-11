@@ -63,9 +63,15 @@ You can change connections from REST API with:
 ```
 POST http://localhost:5901/setmatrix?source=8&target=3
 ```
-And /state returns JSON with current state, targetlist and sourcelist:
+
+Recall a Salvo (preset)
 ```
-http://localhost:5901/state
+POST http://localhost:5901/recall/?preset=2
+```
+
+Get the a JSON with current state, targetlabel and sourcelabel:
+```
+GET http://localhost:5901/state
 ```
 
 

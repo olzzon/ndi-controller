@@ -17,6 +17,7 @@ import {
 } from '../utils/storage'
 
 let socketClients: any[] = []
+const presetList = ['Salvo 1', 'Salvo 2', 'Salvo 3', 'Salvo 4']
 
 export const webServer = (
     sources: ISource[],
@@ -78,19 +79,22 @@ export const webServer = (
                     }
                 )
                 .on(IO.LOAD_PRESET, (presetName: string) => {
-                    let newTargets = loadTargetList(presetName)
-                    if (newTargets.length > 0) {
-                        newTargets.forEach((target: ITarget, index: number) => {
-                            targets[index].selectedSource =
-                                target.selectedSource || 0
-                            setMatrixConnection(target.selectedSource, index)
-                        })
-                    }
+                    loadPreset(presetName)
                 })
                 .on(IO.SAVE_PRESET, (presetName: string) => {
                     updateTargetList(presetName, targets)
                 })
         })
+    }
+
+    const loadPreset = (presetName) => {
+        let newTargets = loadTargetList(presetName)
+        if (newTargets.length > 0) {
+            newTargets.forEach((target: ITarget, index: number) => {
+                targets[index].selectedSource = target.selectedSource || 0
+                setMatrixConnection(target.selectedSource, index)
+            })
+        }
     }
 
     const RESTsetMatrix = (req: any, res: any) => {
@@ -99,6 +103,17 @@ export const webServer = (
         const sourceIndex = req.query.source - 1
         setMatrixConnection(sourceIndex, targetIndex)
         res.end('Matrix changed')
+    }
+
+    const RESTrecallPreset = (req: any, res: any) => {
+        logger.info('Query : ', req.query)
+        const presetNumber = req.query.preset
+        if (presetNumber < presetList.length) {
+            loadPreset(presetList[req.query.preset - 1])
+            res.end(presetList[req.query.preset - 1] + ' loaded')
+        } else {
+            res.end('Invalid preset index')
+        }
     }
 
     const onEmberMtxChange = (info: any) => {
@@ -144,9 +159,13 @@ export const webServer = (
         })
         app.get('/state', (req: any, res: any) => {
             res.send({ targets, sources })
-        }).post('/setmatrix', (req: any, res: any) => {
-            RESTsetMatrix(req, res)
         })
+            .post('/setmatrix', (req: any, res: any) => {
+                RESTsetMatrix(req, res)
+            })
+            .post('/recall', (req: any, res: any) => {
+                RESTrecallPreset(req, res)
+            })
     })
 
     socketServerConnection()
