@@ -1,3 +1,42 @@
-Private License
+MIT License (Except for NewTek NDI)
 
-Copyright (c) 2021 Kasper Olsson Hans
+NDI Controller: Copyright (c) 2021 Kasper Olsson Hans
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+********************************************************************************************************
+NewTek NDI
+Copyright (C) 2014-2021, NewTek, inc.
+********************************************************************************************************
+
+The NDI SDK license available at:
+    http://new.tk/ndisdk_license/
+
+The NDI Embedded SDK license is available at
+    http://new.tk/ndisdk_embedded_license/
+
+For more information about NDI please visit:
+    http://ndi.tv/
+
+We are truly thankful for the NDI community and the amazing support that it has shown us over the years.
+
+********************************************************************************************************
+NDI gratefully uses the following third party libraries.
+********************************************************************************************************
