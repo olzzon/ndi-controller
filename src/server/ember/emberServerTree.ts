@@ -232,13 +232,13 @@ const buildConnections = function (s: any, t: any) {
 const jsonTree = [
     {
         // path "0"
-        identifier: 'NDI Ember MTX',
+        identifier: 'NDI Controller',
         children: [
             {
                 // path "0.0"
                 identifier: 'identity',
                 children: [
-                    { identifier: 'product', value: 'NDI Ember MTX' },
+                    { identifier: 'product', value: 'NDI Controller' },
                     {
                         identifier: 'Author',
                         value: 'Olzzon',
