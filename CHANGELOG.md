@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/olzzon/ndi-controller/compare/v1.1.0...v1.2.0) (2022-01-24)
+
+
+### Features
+
+* NDI copyright notice and link on MTX setup page ([88fd6a3](https://github.com/olzzon/ndi-controller/commit/88fd6a35ac8ba8c05cdc221eb806ba7616156ce6))
+* REST API load a preset/salvo ([04269a0](https://github.com/olzzon/ndi-controller/commit/04269a085ad43fee79a47eaa2f283dabd1a9d6bd))
+* REST API state includes sourcelist ([adbd1fb](https://github.com/olzzon/ndi-controller/commit/adbd1fb4ff07dcbdd34be4cc64ec4e17b2210818))
+
+
+### Bug Fixes
+
+* Ember protocol - toggled between source and index 0 when conneting to the same crosspoint twice. ([3c04b90](https://github.com/olzzon/ndi-controller/commit/3c04b9063f68e0212079bb368f3101b2def5571d))
+* Update Ember MTX name to "NDI Controller" ([3813ca7](https://github.com/olzzon/ndi-controller/commit/3813ca77b1482c07db05c5bddd4e3d904c0a0bb7))
+
 ## [1.1.0](https://github.com/olzzon/ndi-controller/compare/v0.0.2...v1.1.0) (2022-01-07)
 
 
