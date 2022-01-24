@@ -135,6 +135,8 @@ export const webServer = (
                 discoveredNdiSources
             )
             updateTargetList('targets', targets)
+        } else {
+            setMatrixConnection(targets[info.target].selectedSource, info.target)
         }
     }
 
