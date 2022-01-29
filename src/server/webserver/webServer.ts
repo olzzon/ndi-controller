@@ -10,6 +10,7 @@ import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 import { changeNdiRoutingSource, discoverNdiSources } from '../ndi/ndiMatrice'
 import { setMatrixConnection } from '../ember/emberLocalClient'
 import { emberServer } from '../ember/emberServer'
+import { initializeSkaarhojServer } from '../skaarhoj/SkaarhojRemoteConnection'
 import {
     loadTargetList,
     updateSourcesList,
@@ -172,4 +173,5 @@ export const webServer = (
 
     socketServerConnection()
     emberServerConnetion()
+    initializeSkaarhojServer()
 }
