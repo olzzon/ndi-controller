@@ -2,12 +2,11 @@
 const net = require('net')
 
 //Utils:
-import { RemoteFaderPresets } from './SkaarhojInterface'
 import { logger } from '../utils/logger'
+
 let clientList = []
 
 export const initializeSkaarhojServer = () => {
-    const remoteProtocol = RemoteFaderPresets.rawPanel
 
     const server = net.createServer((client: any) => {
         clientList.push(client)
@@ -22,9 +21,9 @@ const setupSkaarhojConnection = (client: any) => {
     client
         .on('data', (data: any) => {
             logger.debug('Skaarhoj Data Received: ' + data.toString())
-            data.toString()
-                .split('\n')
-                .forEach((command: string) => {
+            const receivedMessage: [string] = data.toString().split('\n')
+            console.log('Message : ', receivedMessage)
+                receivedMessage.forEach((command: string) => {
                     if (command === 'RDY') {
                         client.write('ready ok\n')
                     } else if (command === 'list') {
@@ -37,7 +36,7 @@ const setupSkaarhojConnection = (client: any) => {
                     } else if (command === 'ack') {
                         client.write('ack\n')
                     } else if (command.substring(0, 4) === 'HWC#') {
-                        handleRemoteCommand(command)
+                        handleReceivedCommand(command)
                     }
                 })
         })
@@ -64,7 +63,7 @@ const initializeMapping = (command: string) => {
     }
 }
 
-const handleRemoteCommand = (command: string) => {
+const handleReceivedCommand = (command: string) => {
     let btnNumber = parseInt(
         command.slice(command.indexOf('#') + 1, command.indexOf('='))
     )
