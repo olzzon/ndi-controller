@@ -92,8 +92,7 @@ const handleReceivedCommand = (command: string) => {
                 level = 0
             }
         }
-        //Fader changed:
-        logger.debug(`Received Fader ${channelIndex + 1} Level : ${level}`)
+        logger.debug(`Receivedbutton ${channelIndex + 1} Level : ${level}`)
     } else if (btnNumber > 80) {
         console.log('Btn number :', btnNumber)
     }

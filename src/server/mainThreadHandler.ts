@@ -1,49 +1,108 @@
-import { initializeEmberLocalClient } from './ember/emberLocalClient'
-import { initializeEmberServer } from './ember/emberServer'
-import { setAllCrossPoints } from './utils/setCrossPoints'
-import { webServer } from './webserver/webServer'
+import { socketServer, initializeWebserver } from './webserver/webServer'
+import {
+    setEmberClientCrosspoint,
+    initializeEmberLocalClient,
+} from './ember/emberLocalClient'
+import { emberServer, initializeEmberServer } from './ember/emberServer'
+import { initializeSkaarhojServer } from './hwController/SkaarhojRemoteConnection'
+import { changeNdiRoutingSource, discoverNdiSources, initializeNdiRouting } from './ndi/ndiMatrice'
+import * as IO from '../models/SOCKET_IO_CONTANTS'
 
-import { loadSourceList, loadTargetList } from './utils/storage'
+import {
+    loadSourceList,
+    loadTargetList,
+    setupDefaultSources,
+    setupDefaultTargets,
+    updateTargetList,
+} from './utils/storage'
 import { logger } from './utils/logger'
-import { discoverNdiSources } from './ndi/ndiMatrice'
 import { IDiscoveredNdiSource, ISource, ITarget } from '../models/interfaces'
 
-const setupDefaultSources = (discoveredNdiSources): ISource[] => {
-    let sources: ISource[] = []
-    discoveredNdiSources.forEach((ndiSource: IDiscoveredNdiSource) => {
-        sources.push({
-            label: ndiSource.name,
-            dnsName: ndiSource.name,
-            url: ndiSource.urlAddress,
-        })
-    })
-    return sources
-}
-
-const setupDefaultTargets = (): ITarget[] => {
-    return [
-        { label: 'NDI Controller 1', selectedSource: 0 },
-        { label: 'NDI Controller 2', selectedSource: 0 },
-        { label: 'NDI Controller 3', selectedSource: 0 },
-        { label: 'NDI Controller 4', selectedSource: 0 },
-    ]
-}
+let sources: ISource[]
+let targets: ITarget[]
+let discoveredNdiSources: IDiscoveredNdiSource[]
 
 export const initializeMainThread = () => {
     initializeEmberServer().then(() => {
         initializeEmberLocalClient()
             .then(() => {
-                let discoveredNdiSources: IDiscoveredNdiSource[] =
-                    discoverNdiSources()
-                let sources =
-                    loadSourceList() || setupDefaultSources(discoveredNdiSources)
-                let targets = loadTargetList('targets') || setupDefaultTargets()
+                discoveredNdiSources = discoverNdiSources()
+                sources =
+                    loadSourceList() ||
+                    setupDefaultSources(discoveredNdiSources)
+                targets = loadTargetList('targets') || setupDefaultTargets()
 
                 setAllCrossPoints(sources, targets)
-                webServer(sources, targets, discoveredNdiSources)
+                initializeWebserver(sources, targets, discoveredNdiSources)
+                initializeSkaarhojServer()
+                emberServerListener()
             })
             .catch((error) => {
-                logger.error('Error initializing Ember and NDI Server')
+                logger.error('Error initializing NDI Controller', error)
             })
+    })
+}
+
+const emberServerListener = () => {
+    emberServer
+        .on('matrix-connect', (info) => {
+            onEmberMtxChange(info)
+        })
+        .on('matrix-change', (info) => {
+            onEmberMtxChange(info)
+        })
+
+    const onEmberMtxChange = (info: any) => {
+        if (info.sources[0] !== null) {
+            logger.info(
+                `Ember Client ${info.client} connected target : ${info.target} using source : ${info.sources}`
+            )
+            console.log(info)
+            targets[info.target].selectedSource = parseInt(info.sources)
+            changeNdiRoutingSource(
+                sources[info.sources].url,
+                sources[info.sources].dnsName,
+                info.target
+            )
+            socketServer.emit(
+                IO.UPDATE_CLIENT,
+                sources,
+                targets,
+                discoveredNdiSources
+            )
+            updateTargetList('targets', targets)
+        } else {
+            setEmberClientCrosspoint(
+                targets[info.target].selectedSource,
+                info.target
+            )
+        }
+    }
+}
+
+export const setCrossPoint = (sourceIndex: number, targetIndex: number) => {
+    setEmberClientCrosspoint(sourceIndex, targetIndex)
+}
+
+const setAllCrossPoints = (sources: ISource[], targets: ITarget[]) => {
+    targets.forEach((target: ITarget, targetIndex) => {
+        if (sources[target.selectedSource]) {
+            logger.info(
+                `Initializing Crosspoint Source : ${
+                    target.selectedSource
+                }  to ${
+                    targetIndex
+                }`
+            )
+            setEmberClientCrosspoint(target.selectedSource, targetIndex)
+            initializeNdiRouting(
+                sources[target.selectedSource].url,
+                sources[target.selectedSource].dnsName,
+                targets[targetIndex].label,
+                targetIndex
+            )
+        } else {
+            logger.info('Target Index :'+targetIndex + ' did not have a valid source')
+        }
     })
 }

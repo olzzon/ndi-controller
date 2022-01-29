@@ -1,9 +1,30 @@
-import { ISource, ITarget } from '../../models/interfaces'
+import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 import { logger } from './logger'
 // Node Modules:
 const fs = require('fs')
 const path = require('path')
 const homeDir = require('os').homedir()
+
+export const setupDefaultSources = (discoveredNdiSources): ISource[] => {
+    let sources: ISource[] = []
+    discoveredNdiSources.forEach((ndiSource: IDiscoveredNdiSource) => {
+        sources.push({
+            label: ndiSource.name,
+            dnsName: ndiSource.name,
+            url: ndiSource.urlAddress,
+        })
+    })
+    return sources
+}
+
+export const setupDefaultTargets = (): ITarget[] => {
+    return [
+        { label: 'NDI Controller 1', selectedSource: 0 },
+        { label: 'NDI Controller 2', selectedSource: 0 },
+        { label: 'NDI Controller 3', selectedSource: 0 },
+        { label: 'NDI Controller 4', selectedSource: 0 },
+    ]
+}
 
 export const loadSourceList = (): ISource[] => {
     let sources: ISource[] = []

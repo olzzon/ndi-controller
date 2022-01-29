@@ -1,7 +1,7 @@
 import { logger } from '../utils/logger'
 
 const { EmberClient } = require('node-emberplus')
-const emberClient = new EmberClient('127.0.0.1', 9000)
+export const emberClient = new EmberClient('127.0.0.1', 9000)
 
 export const initializeEmberLocalClient = (): Promise<void> => {
     return new Promise((resolve, reject) => {
@@ -21,7 +21,7 @@ export const initializeEmberLocalClient = (): Promise<void> => {
     })
 }
 
-export const setMatrixConnection = (
+export const setEmberClientCrosspoint = (
     sourceIndex: number,
     targetIndex: number
 ) => {
