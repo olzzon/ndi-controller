@@ -90,6 +90,7 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
                     className="settings-popup-select-multiple"
                     onChange={(event) => handleSelectSources(event)}
                     multiple={true}
+                    value={sourceFilter.map((source: number)=> { return String(source)})}
                 >
                     {props.sources.map(
                         (source: ISource,
