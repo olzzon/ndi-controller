@@ -7,6 +7,8 @@ export interface ISource {
 export interface ITarget {
     label: string
     selectedSource: number
+    hwPanelId?: string
+    allowedSources?: Array<boolean>
 }
 
 export interface IDiscoveredNdiSource {

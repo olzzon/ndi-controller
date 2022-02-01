@@ -14,7 +14,6 @@ interface IClientList {
 let clientList: IClientList[] = []
 let sources: ISource[]
 let targets: ITarget[]
-let targetIndex: number
 
 export const initializeSkaarhojServer = (
     sourcesProps: ISource[],
@@ -23,7 +22,7 @@ export const initializeSkaarhojServer = (
     sources = sourcesProps
     targets = targetsProps
     const server = net.createServer((client: any) => {
-        clientList.push({ clientConnection: client, targetIndex: -1 })
+        clientList.push({ clientConnection: client, targetIndex: 0 })
         setupSkaarhojConnection(clientList[clientList.length - 1])
     })
 
@@ -44,20 +43,17 @@ const setupSkaarhojConnection = (client: IClientList) => {
                 } else if (command === 'list') {
                     client.clientConnection.write('ActivePanel=1\n')
                 } else if (command.includes('map=')) {
-                    initializeMapping(command)
-                    skaarhojUpdateButtonLights()
+                    console.log('Mapping :', command)
                 } else if (command === 'ping') {
                     client.clientConnection.write('pingo\n')
                 } else if (command === 'ack') {
                     client.clientConnection.write('ack\n')
                 } else if (command.substring(0, 4) === 'HWC#') {
-                    handleReceivedCommand(command)
+                    handleReceivedCommand(command, client)
                 } else if (command.includes('_serial')) {
-                    const serial = command.slice(command.indexOf('=') + 1)
-                    console.log('serial number is :', serial)
-                    client.targetIndex = targets.findIndex((target) => {
-                        return serial === '44'
-                    })
+                    client.targetIndex = findTargetIndex(command)
+                    updateAllLabels()
+                    skaarhojUpdateButtonLights()
                 }
             })
         })
@@ -75,19 +71,19 @@ const setupSkaarhojConnection = (client: IClientList) => {
         })
 }
 
-const initializeMapping = (command: string) => {
-    let hwButton = parseInt(command.substring(command.indexOf(':') + 1))
-    // Initialize:
-    console.log(
-        'Initializing Skaarhoj remote mapping :',
-        command,
-        'Button nr :',
-        hwButton
-    )
-    updateLabelState(hwButton - 1, 0)
+const findTargetIndex = (command: string): number => {
+    const serial = command.slice(command.indexOf('=') + 1)
+    let targetIndex: number = targets.findIndex((target: ITarget) => {
+        return serial === target.hwPanelId
+    })
+    console.log('serial number is :', serial, 'Target index is : ', targetIndex)
+    if (targetIndex === -1) {
+        targetIndex = 0
+    }
+    return targetIndex
 }
 
-const handleReceivedCommand = (command: string) => {
+const handleReceivedCommand = (command: string, client: IClientList) => {
     let btnNumber = parseInt(
         command.slice(command.indexOf('#') + 1, command.indexOf('.'))
     )
@@ -103,12 +99,20 @@ const handleReceivedCommand = (command: string) => {
     if (btnNumber <= 6) {
         let sourceIndex = btnNumber - 1
         if (event === 'Up') {
-            setCrossPoint(sourceIndex, 0) // For now only targetIndex 0 i supported
+            setCrossPoint(sourceIndex, client.targetIndex) // For now only targetIndex 0 i supported
         }
     }
 }
 
-const updateLabelState = (sourceIndex: number, targetIndex: number) => {
+const updateAllLabels = () => {
+    for (let i = 0; i <= 6; i++) {
+        clientList.forEach((client) => {
+            updateLabelState(i, client)
+        })
+    }
+}
+
+const updateLabelState = (sourceIndex: number, client) => {
     console.log('Skaarhoj Update label on: ', sourceIndex + 1)
     let formatSource = sources[sourceIndex]?.label || 'unknown'
 
@@ -116,18 +120,17 @@ const updateLabelState = (sourceIndex: number, targetIndex: number) => {
         'HWCt#' + String(sourceIndex + 1) + '=' + '|||||' + formatSource + '\n'
     // 32767|||||label
     logger.info(`Sending command to Skaarhoj : ${formattetString}`)
-    clientList.forEach((client) => {
         client.clientConnection.write(formattetString)
-    })
 }
 
 export const skaarhojUpdateButtonLights = () => {
     console.log('Skaarhoj update button state')
     for (let i = 0; i <= 6; i++) {
-        let active: string = targets[0].selectedSource === i ? '3' : '0'
-        let formattetString: string =
-            'HWC#' + String(i + 1) + '=' + active + '\n'
         clientList.forEach((client) => {
+            let active: string =
+                targets[client.targetIndex].selectedSource === i ? '3' : '0'
+            let formattetString: string =
+                'HWC#' + String(i + 1) + '=' + active + '\n'
             client.clientConnection.write(formattetString)
         })
     }

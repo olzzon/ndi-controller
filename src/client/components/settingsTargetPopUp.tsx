@@ -19,10 +19,13 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
     const [selectedSource] = useState<number>(
         props.targets[props.selectedPopUp].selectedSource
     )
+    const [hwPanelId, setHwPanelId] = useState<string>(
+        props.targets[props.selectedPopUp].hwPanelId || ''
+    )
 
     const handleUpdateChange = () => {
         let newTargets: ITarget[] = props.targets
-        newTargets[props.selectedPopUp] = { label, selectedSource }
+        newTargets[props.selectedPopUp] = { label, selectedSource, hwPanelId }
         props.setTargets(newTargets)
         props.setSelectedPopUp(-1)
     }
@@ -44,6 +47,12 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
         setLabel(event.target.value)
     }
 
+    const handleHwPanelId = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setHwPanelId(event.target.value)
+    }
+
     return (
         <div className="settings-popup">
             <div className="settings-popup-header">Change Target Label:</div>
@@ -54,6 +63,15 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
                     type="text"
                     value={label}
                     onChange={(event) => handleUserLabelInput(event)}
+                />
+            </label>
+            <label className="settings-popup-label">
+                HW Id (serial) :
+                <input
+                    className="settings-popup-input"
+                    type="text"
+                    value={hwPanelId}
+                    onChange={(event) => handleHwPanelId(event)}
                 />
             </label>
             <div className="settings-popup-container-foot">

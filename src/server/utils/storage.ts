@@ -55,6 +55,7 @@ export const loadTargetList = (fileName: string): ITarget[] => {
 }
 
 export const updateTargetList = (fileName: string, targets: ITarget[]) => {
+    console.log('Saving Targets list :', targets)
     let json = JSON.stringify(targets)
     if (!fs.existsSync(path.resolve(homeDir, 'ndi-controller'))) {
         fs.mkdirSync(path.resolve(homeDir, 'ndi-controller'))
