@@ -1,6 +1,7 @@
 //Node Modules:
 const net = require('net')
 
+import { lookup } from 'dns'
 import { ISource, ITarget } from '../../models/interfaces'
 import { setCrossPoint } from '../mainThreadHandler'
 //Utils:
@@ -9,6 +10,7 @@ import { logger } from '../utils/logger'
 interface IClientList {
     clientConnection: any
     targetIndex: number
+    sourcesOnbuttons: number[]
 }
 
 let clientList: IClientList[] = []
@@ -22,7 +24,11 @@ export const initializeSkaarhojServer = (
     sources = sourcesProps
     targets = targetsProps
     const server = net.createServer((client: any) => {
-        clientList.push({ clientConnection: client, targetIndex: 0 })
+        clientList.push({
+            clientConnection: client,
+            targetIndex: 0,
+            sourcesOnbuttons: [],
+        })
         setupSkaarhojConnection(clientList[clientList.length - 1])
     })
 
@@ -52,6 +58,7 @@ const setupSkaarhojConnection = (client: IClientList) => {
                     handleReceivedCommand(command, client)
                 } else if (command.includes('_serial')) {
                     client.targetIndex = findTargetIndex(command)
+                    findSourcesForPanel(client)
                     updateAllLabels()
                     skaarhojUpdateButtonLights()
                 }
@@ -83,6 +90,20 @@ const findTargetIndex = (command: string): number => {
     return targetIndex
 }
 
+const findSourcesForPanel = (client: IClientList) => {
+    let sourceIndex = 0
+    let btnNumber = 0
+    while (btnNumber < 6) {
+        if (!targets[client.targetIndex].sourceFilter?.includes(sourceIndex)) {
+            client.sourcesOnbuttons.push(sourceIndex)
+            btnNumber++
+        }
+        sourceIndex++
+    }
+
+    console.log('Sources for Panel :', client.sourcesOnbuttons)
+}
+
 const handleReceivedCommand = (command: string, client: IClientList) => {
     let btnNumber = parseInt(
         command.slice(command.indexOf('#') + 1, command.indexOf('.'))
@@ -97,9 +118,8 @@ const handleReceivedCommand = (command: string, client: IClientList) => {
         event
     )
     if (btnNumber <= 6) {
-        let sourceIndex = btnNumber - 1
         if (event === 'Up') {
-            setCrossPoint(sourceIndex, client.targetIndex) // For now only targetIndex 0 i supported
+            setCrossPoint(client.sourcesOnbuttons[btnNumber-1], client.targetIndex) // For now only targetIndex 0 i supported
         }
     }
 }
@@ -112,15 +132,16 @@ const updateAllLabels = () => {
     }
 }
 
-const updateLabelState = (sourceIndex: number, client) => {
-    console.log('Skaarhoj Update label on: ', sourceIndex + 1)
+const updateLabelState = (btnIndex: number, client: IClientList) => {
+    console.log('Skaarhoj Update label on: ', btnIndex + 1)
+    let sourceIndex = client.sourcesOnbuttons[btnIndex]
     let formatSource = sources[sourceIndex]?.label || 'unknown'
 
     let formattetString =
-        'HWCt#' + String(sourceIndex + 1) + '=' + '|||||' + formatSource + '\n'
+        'HWCt#' + String(btnIndex + 1) + '=' + '|||||' + formatSource + '\n'
     // 32767|||||label
     logger.info(`Sending command to Skaarhoj : ${formattetString}`)
-        client.clientConnection.write(formattetString)
+    client.clientConnection.write(formattetString)
 }
 
 export const skaarhojUpdateButtonLights = () => {
@@ -128,7 +149,7 @@ export const skaarhojUpdateButtonLights = () => {
     for (let i = 0; i <= 6; i++) {
         clientList.forEach((client) => {
             let active: string =
-                targets[client.targetIndex].selectedSource === i ? '3' : '0'
+                targets[client.targetIndex].selectedSource === client.sourcesOnbuttons[i] ? '3' : '0'
             let formattetString: string =
                 'HWC#' + String(i + 1) + '=' + active + '\n'
             client.clientConnection.write(formattetString)

@@ -41,15 +41,24 @@
     color: rgb(180, 180, 180);
 }
 
-.settings-popup-container-select {
+.settings-popup-select {
     background-color: rgb(41, 40, 40);
-    height: 60px;
+    height: 30px;
     margin-top: 40px;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    width: 100%;
-align-items: center;
+    align-items: center;
+    color: rgb(180, 180, 180);
+}
+
+.settings-popup-select-multiple {
+    background-color: rgb(41, 40, 40);
+    height: 120px;
+    color: rgb(180, 180, 180);
+    margin-right: 20px;
+    margin-left: 30px;
+    width: 308px;
 }
 
 .settings-popup-select {
@@ -81,19 +90,18 @@ align-items: center;
     background-color: rgb(78, 78, 78);
     width: 150px;
     height: 30px;
-    margin: 10px
+    margin: 10px;
 }
 
 .settings-popup-cancel {
     background-color: rgb(139, 139, 139);
     width: 150px;
-    margin: 10px
+    margin: 10px;
 }
 
 .settings-popup-update {
     color: white;
     background-color: rgb(59, 0, 0);
     width: 150px;
-    margin: 10px
+    margin: 10px;
 }
-

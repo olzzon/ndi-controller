@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
-import * as IO from '../../models/SOCKET_IO_CONTANTS'
 import '../styles/SettingsPopup.css'
-import { socketClient } from './mainPage'
 
 interface ISettingsSourcePopup {
     targets: ITarget[]
+    sources: ISource[]
     setTargets: React.Dispatch<React.SetStateAction<ITarget[]>>
     selectedPopUp: number
     setSelectedPopUp: React.Dispatch<React.SetStateAction<number>>
@@ -22,10 +21,13 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
     const [hwPanelId, setHwPanelId] = useState<string>(
         props.targets[props.selectedPopUp].hwPanelId || ''
     )
+    const [sourceFilter, setSourceFilter] = useState<number[]>(
+        props.targets[props.selectedPopUp].sourceFilter || []
+    )
 
     const handleUpdateChange = () => {
         let newTargets: ITarget[] = props.targets
-        newTargets[props.selectedPopUp] = { label, selectedSource, hwPanelId }
+        newTargets[props.selectedPopUp] = { label, selectedSource, hwPanelId, sourceFilter }
         props.setTargets(newTargets)
         props.setSelectedPopUp(-1)
     }
@@ -53,6 +55,14 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
         setHwPanelId(event.target.value)
     }
 
+    const handleSelectSources = (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        let sourceFilter = Array.from(event.target.selectedOptions).map((selection) => {return parseInt(selection.value)})
+        console.log('Selected sources to exclude :', sourceFilter)
+        setSourceFilter(sourceFilter)
+    }
+
     return (
         <div className="settings-popup">
             <div className="settings-popup-header">Change Target Label:</div>
@@ -73,6 +83,26 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
                     value={hwPanelId}
                     onChange={(event) => handleHwPanelId(event)}
                 />
+            </label>
+            <label className="settings-popup-label">
+                Panel exclude :
+                <select
+                    className="settings-popup-select-multiple"
+                    onChange={(event) => handleSelectSources(event)}
+                    multiple={true}
+                >
+                    {props.sources.map(
+                        (source: ISource,
+                            index: number
+                        ) => {
+                            return (
+                                <option key={index} value={index}>
+                                    {source.label}
+                                </option>
+                            )
+                        }
+                    )}
+                </select>
             </label>
             <div className="settings-popup-container-foot">
                 <button
