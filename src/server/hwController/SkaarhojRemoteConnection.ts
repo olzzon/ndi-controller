@@ -15,6 +15,7 @@ interface IClientList {
 let clientList: IClientList[] = []
 let sources: ISource[]
 let targets: ITarget[]
+let btnAmount: number = 0
 
 export const initializeSkaarhojServer = (
     sourcesProps: ISource[],
@@ -86,13 +87,14 @@ const findTargetIndex = (command: string): number => {
     if (targetIndex === -1) {
         targetIndex = 0
     }
+    btnAmount = targets[targetIndex].hwPanelBtnAmount
     return targetIndex
 }
 
 const findSourcesForPanel = (client: IClientList) => {
     let sourceIndex = 0
     let btnNumber = 0
-    while (btnNumber < 6) {
+    while (btnNumber < btnAmount) {
         if (!targets[client.targetIndex].sourceFilter?.includes(sourceIndex)) {
             client.sourcesOnbuttons.push(sourceIndex)
             btnNumber++
@@ -116,7 +118,7 @@ const handleReceivedCommand = (command: string, client: IClientList) => {
         'Event : ',
         event
     )
-    if (btnNumber <= 6) {
+    if (btnNumber <= btnAmount) {
         if (event === 'Up') {
             setCrossPoint(client.sourcesOnbuttons[btnNumber-1], client.targetIndex) // For now only targetIndex 0 i supported
         }
@@ -124,7 +126,7 @@ const handleReceivedCommand = (command: string, client: IClientList) => {
 }
 
 const updateAllLabels = () => {
-    for (let i = 0; i <= 6; i++) {
+    for (let i = 0; i <= btnAmount; i++) {
         clientList.forEach((client) => {
             updateLabelState(i, client)
         })
@@ -145,7 +147,7 @@ const updateLabelState = (btnIndex: number, client: IClientList) => {
 
 export const skaarhojUpdateButtonLights = () => {
     console.log('Skaarhoj update button state')
-    for (let i = 0; i <= 6; i++) {
+    for (let i = 0; i <= btnAmount; i++) {
         clientList.forEach((client) => {
             let active: string =
                 targets[client.targetIndex].selectedSource === client.sourcesOnbuttons[i] ? '3' : '0'

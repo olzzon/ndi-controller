@@ -19,18 +19,30 @@ If you open up a brower and type:
 localhost:5901/?target=3 (or whatever ip-address the NDI-Controller is located)
 ```
 You'll get a personal source selector for a single target
+In Mtx setup under targets you can select what sources that should be excludes for a specific target.
 <img src="doc/clientpanel.png">
 
 ## MTX Setup view:
 <img src="doc/mtx-setup.png">
 
 ## Add source:
+When adding a source you can either type in manually (e.g. adding a non-discoverable source) or select a discoveret NDI Source.
+Pressing RE-DISCOVER will search for NDI sources again.
 <img src="doc/source-select.png">
+
+## Add Target:
+When adding targets it's possible to assign a Skaarhoj HW panel + number of buttons, and exclude sources on User panels (Web client and Skaahoj panels)
+
+<img src="doc/target-setup.png">
 
 
 ## Installation: 
 Windows: Run the pre-build "ndi-controller Setup x.x.x.exe"
 Mac: Run the pre-build "ndi-controller-x.x.x.dmg"
+
+## Skaarhoj panel support:
+NDI Controller is listening for Skaahoj raw-panels on port 9923 (standard Skaahoj port)
+In MTX settings -> you can add the serial number of the skaarhoj panel on the target you wish to control.
 
 ### Build and run:
 ndi_mtx.cc will build when yarn is called.

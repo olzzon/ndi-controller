@@ -21,13 +21,16 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
     const [hwPanelId, setHwPanelId] = useState<string>(
         props.targets[props.selectedPopUp].hwPanelId || ''
     )
+    const [hwPanelBtnAmount, setHwPanelBtnAmount] = useState<number>(
+        props.targets[props.selectedPopUp].hwPanelBtnAmount || 0
+    )
     const [sourceFilter, setSourceFilter] = useState<number[]>(
         props.targets[props.selectedPopUp].sourceFilter || []
     )
 
     const handleUpdateChange = () => {
         let newTargets: ITarget[] = props.targets
-        newTargets[props.selectedPopUp] = { label, selectedSource, hwPanelId, sourceFilter }
+        newTargets[props.selectedPopUp] = { label, selectedSource, hwPanelId, hwPanelBtnAmount, sourceFilter }
         props.setTargets(newTargets)
         props.setSelectedPopUp(-1)
     }
@@ -55,12 +58,18 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
         setHwPanelId(event.target.value)
     }
 
+    const handleHwPanelBtnAmount = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setHwPanelBtnAmount(parseInt(event.target.value))
+    }
+
     const handleSelectSources = (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
-        let sourceFilter = Array.from(event.target.selectedOptions).map((selection) => {return parseInt(selection.value)})
-        console.log('Selected sources to exclude :', sourceFilter)
-        setSourceFilter(sourceFilter)
+        let filtered = Array.from(event.target.selectedOptions).map((selection) => {return parseInt(selection.value)})
+        console.log('Selected sources to exclude :', filtered)
+        setSourceFilter(filtered)
     }
 
     return (
@@ -85,7 +94,16 @@ const SettingsTargetPopUp: React.FC<ISettingsSourcePopup> = (props) => {
                 />
             </label>
             <label className="settings-popup-label">
-                Panel exclude :
+                HW buttons :
+                <input
+                    className="settings-popup-input"
+                    type="text"
+                    value={hwPanelBtnAmount}
+                    onChange={(event) => handleHwPanelBtnAmount(event)}
+                />
+            </label>
+            <label className="settings-popup-label">
+                User Panel Exclude :
                 <select
                     className="settings-popup-select-multiple"
                     onChange={(event) => handleSelectSources(event)}
