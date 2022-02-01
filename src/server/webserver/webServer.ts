@@ -35,7 +35,7 @@ export const initializeWebserver = (
     const port: number = parseInt(process.env.PORT || '5901') || 5901
     app.use('/', express.static(path.join(__dirname, '../../client')))
     server.listen(port)
-    logger.info(`Server started at http://localhost:${port}`)
+    logger.info(`Webserver started at http://localhost:${port}`)
 
     server.on('connection', () => {
         app.get('/', (req: any, res: any) => {

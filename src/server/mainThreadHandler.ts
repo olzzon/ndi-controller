@@ -4,7 +4,7 @@ import {
     initializeEmberLocalClient,
 } from './ember/emberLocalClient'
 import { emberServer, initializeEmberServer } from './ember/emberServer'
-import { initializeSkaarhojServer } from './hwController/SkaarhojRemoteConnection'
+import { initializeSkaarhojServer, skaarhojUpdateButtonLights } from './hwController/SkaarhojRemoteConnection'
 import { changeNdiRoutingSource, discoverNdiSources, initializeNdiRouting } from './ndi/ndiMatrice'
 import * as IO from '../models/SOCKET_IO_CONTANTS'
 
@@ -34,7 +34,7 @@ export const initializeMainThread = () => {
 
                 setAllCrossPoints(sources, targets)
                 initializeWebserver(sources, targets, discoveredNdiSources)
-                initializeSkaarhojServer()
+                initializeSkaarhojServer(sources, targets)
                 emberServerListener()
             })
             .catch((error) => {
@@ -71,6 +71,7 @@ const emberServerListener = () => {
                 discoveredNdiSources
             )
             updateTargetList('targets', targets)
+            skaarhojUpdateButtonLights()
         } else {
             setEmberClientCrosspoint(
                 targets[info.target].selectedSource,
