@@ -94,7 +94,7 @@ const findTargetIndex = (command: string): number => {
 const findSourcesForPanel = (client: IClientList) => {
     let sourceIndex = 0
     let btnNumber = 0
-    while (btnNumber < btnAmount) {
+    while (btnNumber < btnAmount && sources.length > sourceIndex) {
         if (!targets[client.targetIndex].sourceFilter?.includes(sourceIndex)) {
             client.sourcesOnbuttons.push(sourceIndex)
             btnNumber++
@@ -118,24 +118,28 @@ const handleReceivedCommand = (command: string, client: IClientList) => {
         'Event : ',
         event
     )
-    if (btnNumber <= btnAmount) {
+    if (btnNumber <= client.sourcesOnbuttons.length) {
         if (event === 'Up') {
-            setCrossPoint(client.sourcesOnbuttons[btnNumber-1], client.targetIndex) // For now only targetIndex 0 i supported
+            setCrossPoint(
+                client.sourcesOnbuttons[btnNumber - 1],
+                client.targetIndex
+            ) // For now only targetIndex 0 i supported
         }
     }
 }
 
 const updateAllLabels = () => {
-    for (let i = 0; i <= btnAmount; i++) {
-        clientList.forEach((client) => {
-            updateLabelState(i, client)
-        })
-    }
+    clientList.forEach((client) => {
+        client.sourcesOnbuttons.forEach(
+            (sourceIndex: number, btnIndex: number) => {
+                updateLabelState(sourceIndex, btnIndex, client)
+            }
+        )
+    })
 }
 
-const updateLabelState = (btnIndex: number, client: IClientList) => {
+const updateLabelState = (sourceIndex: number, btnIndex: number, client: IClientList) => {
     console.log('Skaarhoj Update label on: ', btnIndex + 1)
-    let sourceIndex = client.sourcesOnbuttons[btnIndex]
     let formatSource = sources[sourceIndex]?.label || 'unknown'
 
     let formattetString =
@@ -147,13 +151,17 @@ const updateLabelState = (btnIndex: number, client: IClientList) => {
 
 export const skaarhojUpdateButtonLights = () => {
     console.log('Skaarhoj update button state')
-    for (let i = 0; i <= btnAmount; i++) {
-        clientList.forEach((client) => {
-            let active: string =
-                targets[client.targetIndex].selectedSource === client.sourcesOnbuttons[i] ? '3' : '0'
-            let formattetString: string =
-                'HWC#' + String(i + 1) + '=' + active + '\n'
-            client.clientConnection.write(formattetString)
-        })
-    }
+    clientList.forEach((client) => {
+        client.sourcesOnbuttons.forEach(
+            (sourceIndex: number, btnIndex: number) => {
+                let active: string =
+                    targets[client.targetIndex].selectedSource === sourceIndex
+                        ? '3'
+                        : '0'
+                let formattetString: string =
+                    'HWC#' + String(btnIndex + 1) + '=' + active + '\n'
+                client.clientConnection.write(formattetString)
+            }
+        )
+    })
 }
