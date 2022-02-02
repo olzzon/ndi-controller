@@ -16,6 +16,8 @@ All notable changes to this project will be documented in this file. See [standa
 * Skaarhoj Quick Bar implementation - works on target 0 ([218aeb6](https://github.com/olzzon/ndi-controller/commit/218aeb61515c6a09221ae7aceb42add84a074b2e))
 * sources excludelist for userpanels - web panel implemented ([0dbb3a0](https://github.com/olzzon/ndi-controller/commit/0dbb3a0a5b51ea01a2beae1ded801a7604d94555))
 
+### [1.2.1](https://github.com/olzzon/ndi-controller/compare/v1.2.0...v1.2.1) (2022-02-02)
+
 ## [1.2.0](https://github.com/olzzon/ndi-controller/compare/v1.1.0...v1.2.0) (2022-01-24)
 
 
