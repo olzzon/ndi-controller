@@ -160,6 +160,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
             ) : (
                 <SettingsTargetPopUp
                     targets={settingsTargets}
+                    sources={settingsSources}
                     setTargets={setSettingsTargets}
                     discoveredNdiSources={props.discoveredNdiSources}
                     selectedPopUp={selectedTargetIndex}
