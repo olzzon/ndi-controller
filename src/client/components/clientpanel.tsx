@@ -46,24 +46,28 @@ const ClientPanel = (props: IclientPanelProps) => {
                     <div className="client-panel">
                         {sources.map((source: ISource, sourceIndex: number) => {
                             return (
-                                <button
-                                    key={sourceIndex}
-                                    className="client-connection-botton"
-                                    onClick={() =>
-                                        handleChangeSource(sourceIndex)
-                                    }
-                                >
-                                    {targets[targetIndex].selectedSource ===
-                                    sourceIndex ? (
-                                        <div className="client-button-label-active">
-                                            {source.label}
-                                        </div>
-                                    ) : (
-                                        <div className="client-button-label">
-                                            {source.label}
-                                        </div>
-                                    )}
-                                </button>
+                                <React.Fragment>
+                                    {!targets[targetIndex].sourceFilter?.includes(sourceIndex) ?
+                                    <button
+                                        key={sourceIndex}
+                                        className="client-connection-botton"
+                                        onClick={() =>
+                                            handleChangeSource(sourceIndex)
+                                        }
+                                    >
+                                        {targets[targetIndex].selectedSource ===
+                                        sourceIndex ? (
+                                            <div className="client-button-label-active">
+                                                {source.label}
+                                            </div>
+                                        ) : (
+                                            <div className="client-button-label">
+                                                {source.label}
+                                            </div>
+                                        )}
+                                    </button>
+                                    : null }
+                                </React.Fragment>
                             )
                         })}
                     </div>
