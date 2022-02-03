@@ -102,12 +102,15 @@ const socketServerConnection = () => {
                         targets,
                         discoveredNdiSources
                     )
-                    if (app) {
-                        app.relaunch()
-                        app.exit(0)
-                    } else {
-                        process.exit(0)
-                    }
+                    // Delay restart:
+                    setTimeout(()=> {
+                        if (app) {
+                            app.relaunch()
+                            app.exit(0)
+                        } else {
+                            process.exit(0)
+                        }
+                    }, 2000)
                 }
             )
             .on(IO.LOAD_PRESET, (presetName: string) => {
