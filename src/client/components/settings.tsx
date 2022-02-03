@@ -141,7 +141,7 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                         handleSaveSettings()
                     }}
                 >
-                    UPDATE
+                    SAVE & RESTART
                 </button>
             </div>
             {selectedSourceIndex === -1 ? (

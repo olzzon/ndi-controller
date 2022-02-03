@@ -1,6 +1,7 @@
+const { app } = require ('electron')
 const express = require('express')
-const app = express()
-const server = require('http').Server(app)
+const expressApp = express()
+const server = require('http').Server(expressApp)
 export const socketServer = require('socket.io')(server)
 const path = require('path')
 
@@ -22,7 +23,6 @@ let sources: ISource[]
 let targets: ITarget[]
 let discoveredNdiSources: IDiscoveredNdiSource[]
 
-
 export const initializeWebserver = (
     sourcesProps: ISource[],
     targetsProps: ITarget[],
@@ -33,15 +33,15 @@ export const initializeWebserver = (
     discoveredNdiSources = discoveredNdiSourcesProps
 
     const port: number = parseInt(process.env.PORT || '5901') || 5901
-    app.use('/', express.static(path.join(__dirname, '../../client')))
+    expressApp.use('/', express.static(path.join(__dirname, '../../client')))
     server.listen(port)
     logger.info(`Webserver started at http://localhost:${port}`)
 
     server.on('connection', () => {
-        app.get('/', (req: any, res: any) => {
+        expressApp.get('/', (req: any, res: any) => {
             res.sendFile(path.resolve('index.html'))
         })
-        app.get('/state', (req: any, res: any) => {
+        expressApp.get('/state', (req: any, res: any) => {
             res.send({ targets: targetsProps, sources: sourcesProps })
         })
             .post('/setmatrix', (req: any, res: any) => {
@@ -102,6 +102,12 @@ const socketServerConnection = () => {
                         targets,
                         discoveredNdiSources
                     )
+                    if (app) {
+                        app.relaunch()
+                        app.exit(0)
+                    } else {
+                        process.exit(0)
+                    }
                 }
             )
             .on(IO.LOAD_PRESET, (presetName: string) => {
