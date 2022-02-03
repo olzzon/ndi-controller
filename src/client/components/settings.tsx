@@ -26,7 +26,6 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
 
     const handleSaveSettings = () => {
         socketClient.emit(IO.SAVE_SETTINGS, settingsSources, settingsTargets)
-        props.handleShowSettings()
     }
 
     const handleCancelSettings = () => {
