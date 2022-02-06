@@ -22,7 +22,11 @@ const presetList = ['Salvo 1', 'Salvo 2', 'Salvo 3', 'Salvo 4']
 let sources: ISource[]
 let targets: ITarget[]
 let discoveredNdiSources: IDiscoveredNdiSource[]
-const NDI_CONTROLLER_VERSION = process.env.npm_package_version
+let NDI_CONTROLLER_VERSION = process.env.npm_package_version
+if (app) {
+    NDI_CONTROLLER_VERSION = app.getVersion()
+}
+
 
 export const initializeWebserver = (
     sourcesProps: ISource[],
