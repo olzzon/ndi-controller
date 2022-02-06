@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/olzzon/ndi-controller/compare/v1.5.0...v1.5.1) (2022-02-06)
+
+
+### Bug Fixes
+
+* support version when running as an Electron app ([2e9d183](https://github.com/olzzon/ndi-controller/commit/2e9d183589eff91508bb7706b804b80b4f592b4e))
+
 ## [1.5.0](https://github.com/olzzon/ndi-controller/compare/v1.4.2...v1.5.0) (2022-02-06)
 
 
