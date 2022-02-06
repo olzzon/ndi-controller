@@ -52,6 +52,13 @@ export const initializeMainThread = () => {
 
 const emberServerListener = () => {
     emberServer
+        .on('connection', (client: any) => {
+            console.log('ember Client connected :', client)
+            setAllCrossPoints(sources, targets)
+        })
+        .on('disconnected', (client: any) => {
+            console.log('ember Client disconnected :', client)
+        })
         .on('matrix-connect', (info) => {
             onEmberMtxChange(info)
         })
