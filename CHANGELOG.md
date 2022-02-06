@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/olzzon/ndi-controller/compare/v1.2.1...v1.4.0) (2022-02-06)
+
+
+### Bug Fixes
+
+* delay app restart to ensure settings are saved ([5a8510c](https://github.com/olzzon/ndi-controller/commit/5a8510cd586bcdbc0d88d25187713b7827fe8234))
+* empty sources and targets was indicated with very small buttons in settings ([18faa3c](https://github.com/olzzon/ndi-controller/commit/18faa3caae9fd7f7bd74ad3ea2c846f311b53679))
+* Restart program after changing settings ([c70c0a1](https://github.com/olzzon/ndi-controller/commit/c70c0a1cf40bd0699b73c49f9de92854b01c5ddf))
+* Selecting source 0 when it's already selected, could cause infinite loop. ([3283274](https://github.com/olzzon/ndi-controller/commit/328327400c08d15707e29ba461dfaf865182f8da))
+* stay in settings view until restart of app ([6b48dfb](https://github.com/olzzon/ndi-controller/commit/6b48dfb49aa28543dbc88d1e6c9370564a29538d))
+
+## [1.3.0](https://github.com/olzzon/ndi-controller/compare/v1.2.0...v1.3.0) (2022-02-02)
+
+
+### Features
+
+* exclude source on userpanel - show exludes sources in target settings ([f630a18](https://github.com/olzzon/ndi-controller/commit/f630a18fa68dc046f14ab47730ee0e0ff8833ed3))
+* filter sources for userpanels ([305d575](https://github.com/olzzon/ndi-controller/commit/305d57558704920cba0d9e1814b29a61afaf155d))
+* initial skaarhoj support ([d87328e](https://github.com/olzzon/ndi-controller/commit/d87328efd54e609bc92122f7906f97e04afbe5bf))
+* Skaarhoj - handle panels with more buttons than sources ([d40ca0f](https://github.com/olzzon/ndi-controller/commit/d40ca0f6a24dd22b5995750fcece3a4a0a5cff9e))
+* skaarhoj hw control - use serial nr to define target to control ([8406840](https://github.com/olzzon/ndi-controller/commit/84068401177c53618534b4030e38a8233ecf988d))
+* Skaarhoj panels - add number of hw buttons ([5dede51](https://github.com/olzzon/ndi-controller/commit/5dede5150a430cfbecbf851a8e47fd274a602757))
+* Skaarhoj Quick Bar implementation - works on target 0 ([218aeb6](https://github.com/olzzon/ndi-controller/commit/218aeb61515c6a09221ae7aceb42add84a074b2e))
+* sources excludelist for userpanels - web panel implemented ([0dbb3a0](https://github.com/olzzon/ndi-controller/commit/0dbb3a0a5b51ea01a2beae1ded801a7604d94555))
+
 ## [1.3.0](https://github.com/olzzon/ndi-controller/compare/v1.2.0...v1.3.0) (2022-02-02)
 
 
