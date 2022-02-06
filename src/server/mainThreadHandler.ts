@@ -30,6 +30,7 @@ let targets: ITarget[]
 let discoveredNdiSources: IDiscoveredNdiSource[]
 
 export const initializeMainThread = () => {
+
     initializeEmberServer().then(() => {
         initializeEmberLocalClient()
             .then(() => {

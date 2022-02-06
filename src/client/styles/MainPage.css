@@ -46,7 +46,11 @@ body {
 }
 
 .foot-credits {
-    margin-right: 30vw;
+    margin-right: 20vw;
+}
+
+.foot-version {
+    margin-left: 2vw;
 }
 
 .foot-settings {

@@ -22,6 +22,7 @@ const presetList = ['Salvo 1', 'Salvo 2', 'Salvo 3', 'Salvo 4']
 let sources: ISource[]
 let targets: ITarget[]
 let discoveredNdiSources: IDiscoveredNdiSource[]
+const NDI_CONTROLLER_VERSION = process.env.npm_package_version
 
 export const initializeWebserver = (
     sourcesProps: ISource[],
@@ -31,6 +32,7 @@ export const initializeWebserver = (
     sources = sourcesProps
     targets = targetsProps
     discoveredNdiSources = discoveredNdiSourcesProps
+
 
     const port: number = parseInt(process.env.PORT || '5901') || 5901
     expressApp.use('/', express.static(path.join(__dirname, '../../client')))
@@ -63,7 +65,7 @@ const socketServerConnection = () => {
         socketClients.push({
             id: socket.id,
         })
-        socket.emit(IO.UPDATE_CLIENT, sources, targets, discoveredNdiSources)
+        socket.emit(IO.UPDATE_CLIENT, sources, targets, discoveredNdiSources, NDI_CONTROLLER_VERSION)
 
         socket
             .on('disconnecting', () => {

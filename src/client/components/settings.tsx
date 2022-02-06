@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { IDiscoveredNdiSource, ISource, ITarget } from '../../models/interfaces'
 import '../styles/Settings.css'
 import * as IO from '../../models/SOCKET_IO_CONTANTS'
@@ -12,6 +12,7 @@ interface ISettingsProps {
     discoveredNdiSources: IDiscoveredNdiSource[]
     setSources: React.Dispatch<React.SetStateAction<ISource[]>>
     handleShowSettings(): void
+    NDI_CONTROLLER_VERSION: string
 }
 
 const SettingsPage: React.FC<ISettingsProps> = (props) => {
@@ -142,6 +143,9 @@ const SettingsPage: React.FC<ISettingsProps> = (props) => {
                 >
                     SAVE & RESTART
                 </button>
+                <div className="foot-version">
+                Version : {props.NDI_CONTROLLER_VERSION}
+                </div>
             </div>
             {selectedSourceIndex === -1 ? (
                 <React.Fragment />

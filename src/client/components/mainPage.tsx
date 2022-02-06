@@ -15,6 +15,7 @@ const presetList = ['Salvo 1', 'Salvo 2', 'Salvo 3', 'Salvo 4']
 
 const MainPage = () => {
     const [showSettings, setShowSettings] = useState<boolean>(false)
+    const [ndiControllerVersion, setNdiControllerVersion] = useState<string>('')
     const [targets, setTargets] = useState<ITarget[]>([])
     const [sources, setSources] = useState<ISource[]>([])
     const [discoveredNdiSources, setDiscoveredNdiSources] = useState<
@@ -32,19 +33,24 @@ const MainPage = () => {
                 (
                     sourceList: ISource[],
                     targetList: ITarget[],
-                    discoveredNdiSourcesList: IDiscoveredNdiSource[]
+                    discoveredNdiSourcesList: IDiscoveredNdiSource[],
+                    version: string
                 ) => {
+
                     console.log(
                         'Source List: ',
                         sourceList,
                         'Target List :',
                         targetList,
                         'Discovered NDI sources :',
-                        discoveredNdiSourcesList
+                        discoveredNdiSourcesList,
+                        'NDI Controller Version : ',
+                        version
                     )
                     setSources(sourceList)
                     setTargets(targetList)
                     setDiscoveredNdiSources(discoveredNdiSourcesList)
+                    setNdiControllerVersion(version)
                 }
             )
     }, [socketClient])
@@ -129,6 +135,7 @@ const MainPage = () => {
                     discoveredNdiSources={discoveredNdiSources}
                     setSources={setSources}
                     handleShowSettings={handleShowSettings}
+                    NDI_CONTROLLER_VERSION={ndiControllerVersion}
                 />
             )}
         </div>
