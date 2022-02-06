@@ -1,4 +1,4 @@
-const { app } = require ('electron')
+const { app } = require('electron')
 const express = require('express')
 const expressApp = express()
 const server = require('http').Server(expressApp)
@@ -41,9 +41,10 @@ export const initializeWebserver = (
         expressApp.get('/', (req: any, res: any) => {
             res.sendFile(path.resolve('index.html'))
         })
-        expressApp.get('/state', (req: any, res: any) => {
-            res.send({ targets: targetsProps, sources: sourcesProps })
-        })
+        expressApp
+            .get('/state', (req: any, res: any) => {
+                res.send({ targets: targetsProps, sources: sourcesProps })
+            })
             .post('/setmatrix', (req: any, res: any) => {
                 RESTsetMatrix(req, res)
             })
@@ -103,7 +104,7 @@ const socketServerConnection = () => {
                         discoveredNdiSources
                     )
                     // Delay restart:
-                    setTimeout(()=> {
+                    setTimeout(() => {
                         if (app) {
                             app.relaunch()
                             app.exit(0)
@@ -125,9 +126,12 @@ const socketServerConnection = () => {
 const loadPreset = (presetName) => {
     let newTargets = loadTargetList(presetName)
     if (newTargets.length > 0) {
-        newTargets.forEach((target: ITarget, index: number) => {
-            targets[index].selectedSource = target.selectedSource || 0
-            setCrossPoint(target.selectedSource, index)
+        targets.forEach((target: ITarget, index: number) => {
+            if (newTargets[index]?.selectedSource < sources.length) {
+                target.selectedSource =
+                    newTargets[index]?.selectedSource || target.selectedSource
+                setCrossPoint(target.selectedSource, index)
+            }
         })
     }
 }
