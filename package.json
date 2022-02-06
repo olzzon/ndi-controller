@@ -1,6 +1,6 @@
 {
     "name": "ndi-controller",
-    "version": "1.4.2",
+    "version": "1.5.0",
     "description": "Manage and route your NDI signals",
     "author": "Olzzon /Kasper Olsson Hans",
     "main": "public/electron.js",

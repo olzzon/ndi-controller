@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/olzzon/ndi-controller/compare/v1.4.2...v1.5.0) (2022-02-06)
+
+
+### Features
+
+* Display software version in MTX Setup ([597585a](https://github.com/olzzon/ndi-controller/commit/597585afc9c216e709926b09d7f206dd24c56dbf))
+
 ### [1.4.2](https://github.com/olzzon/ndi-controller/compare/v1.4.1...v1.4.2) (2022-02-06)
 
 
