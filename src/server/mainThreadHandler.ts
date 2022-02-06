@@ -4,8 +4,15 @@ import {
     initializeEmberLocalClient,
 } from './ember/emberLocalClient'
 import { emberServer, initializeEmberServer } from './ember/emberServer'
-import { initializeSkaarhojServer, skaarhojUpdateButtonLights } from './hwController/SkaarhojRemoteConnection'
-import { changeNdiRoutingSource, discoverNdiSources, initializeNdiRouting } from './ndi/ndiMatrice'
+import {
+    initializeSkaarhojServer,
+    skaarhojUpdateButtonLights,
+} from './hwController/SkaarhojRemoteConnection'
+import {
+    changeNdiRoutingSource,
+    discoverNdiSources,
+    initializeNdiRouting,
+} from './ndi/ndiMatrice'
 import * as IO from '../models/SOCKET_IO_CONTANTS'
 
 import {
@@ -73,10 +80,12 @@ const emberServerListener = () => {
             updateTargetList('targets', targets)
             skaarhojUpdateButtonLights()
         } else {
-            setEmberClientCrosspoint(
-                targets[info.target].selectedSource,
-                info.target
-            )
+            if (targets[info.target].selectedSource > 0) {
+                setEmberClientCrosspoint(
+                    targets[info.target].selectedSource,
+                    info.target
+                )
+            }
         }
     }
 }
@@ -89,11 +98,7 @@ const setAllCrossPoints = (sources: ISource[], targets: ITarget[]) => {
     targets.forEach((target: ITarget, targetIndex) => {
         if (sources[target.selectedSource]) {
             logger.info(
-                `Initializing Crosspoint Source : ${
-                    target.selectedSource
-                }  to ${
-                    targetIndex
-                }`
+                `Initializing Crosspoint Source : ${target.selectedSource}  to ${targetIndex}`
             )
             setEmberClientCrosspoint(target.selectedSource, targetIndex)
             initializeNdiRouting(
@@ -103,7 +108,9 @@ const setAllCrossPoints = (sources: ISource[], targets: ITarget[]) => {
                 targetIndex
             )
         } else {
-            logger.info('Target Index :'+targetIndex + ' did not have a valid source')
+            logger.info(
+                'Target Index :' + targetIndex + ' did not have a valid source'
+            )
         }
     })
 }
