@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.2](https://github.com/olzzon/ndi-controller/compare/v1.4.1...v1.4.2) (2022-02-06)
+
+
+### Bug Fixes
+
+* Loading invalid Salvos could crash NDI Controller ([a50e672](https://github.com/olzzon/ndi-controller/commit/a50e67280b7a2786ba48d9e4be62162233a5c664))
+
 ### [1.4.1](https://github.com/olzzon/ndi-controller/compare/v1.4.0...v1.4.1) (2022-02-06)
 
 
