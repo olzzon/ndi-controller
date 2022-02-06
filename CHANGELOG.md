@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/olzzon/ndi-controller/compare/v1.4.0...v1.4.1) (2022-02-06)
+
+
+### Bug Fixes
+
+* When set all crosspoints when new ember client is connecting. ([51b506e](https://github.com/olzzon/ndi-controller/commit/51b506e89684b9d5662794e41c5d9c0fb739a630))
+
 ## [1.4.0](https://github.com/olzzon/ndi-controller/compare/v1.2.1...v1.4.0) (2022-02-06)
 
 
