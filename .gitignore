@@ -11,3 +11,6 @@ node_modules/
 #other:
 storage/
 .DS_Store
+sources.json
+stored-setup.json
+targets.json

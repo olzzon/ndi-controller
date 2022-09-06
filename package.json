@@ -18,6 +18,7 @@
         "build-server": "tsc -p ./src/server",
         "build-client": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"./src/client/tsconfig.json\" webpack && cp ./src/client/index.html ./build/client/index.html",
         "dev": "electron .",
+        "start": "node build/server/index.js",
         "start-dev": "node --inspect build/server/index.js",
         "start-break": "node --inspect-brk build/server/index.js",
         "build-release": "electron-builder -mw",
