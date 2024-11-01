@@ -1,3 +1,5 @@
+## Looking for sponsors for this project
+
 # NDI-CONTORLLER
 
 The NDI Controller is a GUI based virtual NDI Matrix.
