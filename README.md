@@ -64,7 +64,7 @@ yarn start
 
 #### Ubuntu 24.04 server on x86 machine (arm not supported):
 ```
-sudo apt update && sudo apt install -y libavahi-common-dev libavahi-client-dev build-essential
+sudo apt update && sudo apt install -y libavahi-common-dev libavahi-client-dev build-essential curl
 //Install nodejs v14
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 //Install yarn
