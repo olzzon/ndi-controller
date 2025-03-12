@@ -62,6 +62,26 @@ yarn build-client
 yarn start
 ```
 
+#### Ubuntu 24.04 server on x86 machine (arm not supported):
+```
+sudo apt update && sudo apt install -y libavahi-common-dev libavahi-client-dev build-essential
+//Install nodejs v14
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+//Install yarn
+npm install -g yarn
+//Clone and cd to ndi-ember-mtx folder
+git clone https://github.com/olzzon/ndi-controller.git
+cd ndi-controller
+//Copy lib files to /usr/lib
+cp ./lib/x86_64-linux-gnu/* /usr/lib/
+// Install and build
+yarn
+yarn build
+yarn start
+```
+```
+
+
 Open Web control in chrome:
 ```
 http://localhost:5901
